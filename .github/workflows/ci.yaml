@@ -1,0 +1,63 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  ci:
+    name: Lint and test code base
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: ["3.10.8"]
+        poetry-version: ["1.2.2"]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up poetry
+      uses: abatilo/actions-poetry@v2
+      with:
+        poetry-version: ${{ matrix.poetry-version }}
+
+    - name: Configure poetry
+      shell: bash
+      run: python -m poetry config virtualenvs.in-project true
+
+    - name: Set up cache
+      uses: actions/cache@v2
+      id: cache
+      with:
+        path: .venv
+        key: venv-${{ hashFiles('**/poetry.lock') }}
+
+    - name: Ensure cache is healthy
+      if: steps.cache.outputs.cache-hit == 'true'
+      shell: bash
+      run: timeout 10s python -m poetry run pip --version || rm -rf .venv
+
+    - name: Install dependencies
+      shell: bash
+      run: python -m poetry install --no-root
+
+    - name: Run isort
+      shell: bash
+      run: python -m poetry run python -m isort --check .
+
+    - name: Run black
+      shell: bash
+      run: python -m poetry run python -m black --check .
+
+    - name: Run flake8
+      shell: bash
+      run: python -m poetry run python -m flake8 . --exclude=.venv --max-line-length 119
+
+    # disable tests until deploy
+    # - name: Run tests
+    #   shell: bash
+    #   run: python -m poetry run python -m pytest .

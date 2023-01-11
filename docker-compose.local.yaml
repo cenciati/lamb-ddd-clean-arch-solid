@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: db
+    ports:
+      - 5432:5432
+    volumes:
+      - app-db-data:/var/lib/postgresql/data
+    networks:
+      - app-db-network
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "123"
+      POSTGRES_DB: "extract"
+    restart: on-failure
+
+  pgmyadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgmyadmin
+    ports:
+      - 80:80
+    networks:
+      - app-db-network
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@mail.com"
+      PGADMIN_DEFAULT_USER: "admin"
+      PGADMIN_DEFAULT_PASSWORD: "123"
+    depends_on:
+      - db
+    restart: on-failure
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    container_name: app
+    volumes:
+      - .:/app
+    networks:
+      - app-db-network
+    entrypoint: dockerize -wait tcp://db:5432 -timeout 20s docker-entrypoint.sh
+    depends_on:
+      - db
+    restart: on-failure
+
+volumes:
+  app-db-data:
+    driver: local
+
+networks:
+  app-db-network:
+    driver: bridge

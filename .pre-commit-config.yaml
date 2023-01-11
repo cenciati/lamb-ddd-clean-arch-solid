@@ -1,0 +1,32 @@
+default_stages: [commit]
+repos:
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: sort libraries
+  - repo: https://github.com/ambv/black
+    rev: 22.10.0
+    hooks: 
+      - id: black
+        name: format code
+  - repo: https://github.com/PyCQA/pylint
+    rev: v2.15.6
+    hooks:
+      - id: pylint
+        name: lint code (pylint)
+  - repo: https://github.com/PyCQA/flake8
+    rev: 5.0.4
+    hooks:
+      - id: flake8
+        name: lint code (flake8)
+        entry: pflake8
+        additional_dependencies: [pyproject-flake8]
+  - repo: local
+    hooks:
+      - id: pytest
+        name: test code
+        language: system
+        entry: bash -c "make test"
+        always_run: true
+        pass_filenames: false
