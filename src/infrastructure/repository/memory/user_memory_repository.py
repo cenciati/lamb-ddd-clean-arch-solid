@@ -2,10 +2,10 @@
 from typing import Optional, Sequence
 
 from pydantic import UUID4, EmailStr
+
 from src.application.use_case.user.find_user_by_id.add_user_dto import AddUserDTO
 from src.application.use_case.user.find_user_by_id.update_user_dto import UpdateUserDTO
 from src.application.use_case.user.find_user_by_id.user_output_dto import UserOutputDTO
-
 from src.domain.entity.user import User
 from src.domain.repository.user_repository_interface import UserRepositoryInterface
 

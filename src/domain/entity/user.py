@@ -1,6 +1,6 @@
 # pylint: disable=no-name-in-module, no-self-argument, unused-private-member
 from datetime import datetime
-from typing import Any, Optional
+from typing import Optional
 from uuid import uuid4
 
 from pydantic import (

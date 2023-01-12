@@ -1,8 +1,9 @@
 # pylint: disable=no-name-in-module
 from typing import Optional
-from pydantic import UUID4
-from src.application.use_case.user.find_user_by_id.user_output_dto import UserOutputDTO
 
+from pydantic import UUID4
+
+from src.application.use_case.user.find_user_by_id.user_output_dto import UserOutputDTO
 from src.domain.repository.user_repository_interface import UserRepositoryInterface
 
 
