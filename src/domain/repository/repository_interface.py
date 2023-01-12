@@ -1,32 +1,32 @@
 # pylint: disable=no-name-in-module, invalid-name, redefined-builtin
 from abc import ABC, abstractmethod
-from typing import Any, Sequence
+from typing import Any, Optional, Sequence
 
 
 class RepositoryInterface(ABC):
     """Interface for managing aggregates."""
 
     @abstractmethod
-    def add(self, aggregate_input: Any) -> None:
+    def add(self, entity: Any) -> None:
         """Add something into somewhere."""
         raise NotImplementedError
 
     @abstractmethod
-    def find(self, id: Any) -> Any:
-        """Find something by its unique identifier."""
+    def find(self, id: Any) -> Optional[Any]:
+        """Find something by unique identifier."""
         raise NotImplementedError
 
     @abstractmethod
-    def find_all(self) -> Sequence[Any]:
-        """Find everything of something by its unique identifier."""
+    def find_all(self) -> Optional[Sequence[Any]]:
+        """Find everything of something."""
         raise NotImplementedError
 
     @abstractmethod
-    def update(self, id: Any, updated_aggregate_input: Any) -> None:
-        """Update information of something by its unique identifier."""
+    def update(self, id: Any, updated_entity: Any) -> None:
+        """Update information of something by unique identifier."""
         raise NotImplementedError
 
     @abstractmethod
     def delete(self, id: Any) -> None:
-        """Delete something by its unique identifier."""
+        """Delete something by unique identifier."""
         raise NotImplementedError
