@@ -36,8 +36,6 @@ services:
       context: .
       dockerfile: Dockerfile.local
     container_name: app
-    volumes:
-      - .:/app
     networks:
       - app-db-network
     entrypoint: dockerize -wait tcp://db:5432 -timeout 20s docker-entrypoint.sh
