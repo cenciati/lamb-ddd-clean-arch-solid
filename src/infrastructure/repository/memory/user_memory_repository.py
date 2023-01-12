@@ -1,38 +1,68 @@
-# from typing import List
+# pylint: disable=no-name-in-module,redefined-builtin
+from typing import Optional, Sequence
 
-# from src.application.use_case.get_user.user_output_dto import UserOutputDTO
-# from src.application.use_case.get_user.user_update_dto import UserUpdateDTO
-# from src.domain.entity.user import User
+from pydantic import UUID4, EmailStr
+from src.application.use_case.user.find_user_by_id.add_user_dto import AddUserDTO
+from src.application.use_case.user.find_user_by_id.update_user_dto import UpdateUserDTO
+from src.application.use_case.user.find_user_by_id.user_output_dto import UserOutputDTO
+
+from src.domain.entity.user import User
+from src.domain.repository.user_repository_interface import UserRepositoryInterface
 
 
-# class UserMemoryRepository(UserRepositoryInterface):
-#     """In memory user repository."""
+class UserInMemoryRepository(UserRepositoryInterface):
+    """In memory user repository."""
 
-#     def __init__(self) -> None:
-#         self.database: List[User] = []
+    def __init__(self) -> None:
+        self.database = {}
 
-#     def add(self, user_input: User) -> UserOutputDTO:
-#         """Add a new user into memory."""
-#         self.database.append(user_input)
-#         return user_input
+    def add(self, entity: AddUserDTO) -> None:
+        """Add user into memory."""
+        try:
+            new_user = User(
+                email=entity.email,
+                password=entity.password,
+                instance_slug=entity.instance_slug,
+            )
+            self.database[new_user.id] = new_user
+        except Exception as exc:
+            raise Exception from exc
 
-#     def get(self, user_input: User) -> UserOutputDTO:
-#         """Get a user by their internal id or e-mail."""
-#         idx: int = self.database.index(user_input)
-#         return self.database[idx]
+    def find(self, id: UUID4) -> Optional[UserOutputDTO]:
+        """Find user by unique identifier."""
+        try:
+            return self.database.get(id)
+        except Exception as exc:
+            raise Exception from exc
 
-#     def update(self, user_input: UserUpdateDTO) -> UserOutputDTO:
-#         """Update a user information by their internal id or e-mail."""
-#         for record in self.database:
-#             if record.id == user_input.id:
-#                 idx: int = self.database.index(record)
-#                 updated_user: User = record
-#                 self.database[idx] = user_input
-#         return updated_user
+    def find_by_email(self, email: EmailStr) -> Optional[UserOutputDTO]:
+        """Find user by email."""
+        try:
+            return [user for _, user in self.database.items() if user.email == email][0]
+        except Exception as exc:
+            raise Exception from exc
 
-#     def delete(self, user_input: User) -> UserOutputDTO:
-#         """Delete a user by their internal id or e-mail."""
-#         idx: int = self.database.index(user_input)
-#         deleted_user: UserOutputDTO = self.database[idx]
-#         self.database.remove(user_input)
-#         return deleted_user
+    def find_all(self) -> Optional[Sequence[UserOutputDTO]]:
+        """Find all users from memory."""
+        try:
+            return list(self.database)
+        except Exception as exc:
+            raise Exception from exc
+
+    def update(self, id: UUID4, updated_entity: UpdateUserDTO) -> None:
+        """Update user information by unique identifier."""
+        try:
+            self.database.get(id).update(
+                updated_entity.email,
+                updated_entity.password,
+                updated_entity.instance_slug,
+            )
+        except Exception as exc:
+            raise Exception from exc
+
+    def delete(self, id: UUID4) -> None:
+        """Delete user by unique identifier."""
+        try:
+            self.database.pop(id)
+        except Exception as exc:
+            raise Exception from exc

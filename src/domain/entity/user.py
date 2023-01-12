@@ -1,5 +1,6 @@
 # pylint: disable=no-name-in-module, no-self-argument, unused-private-member
 from datetime import datetime
+from typing import Any, Optional
 from uuid import uuid4
 
 from pydantic import (
@@ -49,3 +50,16 @@ class User(BaseModel):
     @property
     def updated_at(self) -> datetime:
         return self.__updated_at
+
+    def update(
+        self,
+        new_email: Optional[EmailStr],
+        new_password: Optional[str],
+        new_instance_slug: Optional[Slug],
+    ) -> None:
+        if new_email:
+            self.email = new_email
+        if new_password:
+            self.password = new_password
+        if new_instance_slug:
+            self.instance_slug = new_instance_slug
