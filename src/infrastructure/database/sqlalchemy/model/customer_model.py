@@ -1,14 +1,17 @@
 # pylint: disable=no-name-in-module
-from sqlalchemy import Column, String
+from sqlalchemy import Column, ForeignKey, String
 
 from src.infrastructure.database.sqlalchemy.db_config import Base
+from src.infrastructure.database.sqlalchemy.model.commentary_model import (
+    CommentaryModel,
+)
 
 
 class CustomerModel(Base):
     """SQLAlchemy customer table mapping."""
 
     __tablename__ = "customers"
-    id = Column(String, primary_key=True)
+    id = Column(String, ForeignKey(CommentaryModel.customer_id), primary_key=True)
     full_name = Column(String(64), nullable=False)
     email = Column(String, nullable=False, unique=True)
     cpf = Column(String(11), nullable=False, unique=True)

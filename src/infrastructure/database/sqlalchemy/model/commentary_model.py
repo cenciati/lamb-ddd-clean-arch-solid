@@ -1,5 +1,6 @@
 # pylint: disable=no-name-in-module
 from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.orm import relationship
 
 from src.infrastructure.database.sqlalchemy.db_config import Base
 
@@ -12,7 +13,7 @@ class CommentaryModel(Base):
     content = Column(String(2000), nullable=False)
     rating = Column(Integer, nullable=False)
     tags = Column(String, nullable=False)
-    customer_id = Column(String, nullable=False)
+    customer_id = relationship("CustomerModel")
     instance_slug = Column(String(24), nullable=False)
     journey_slug = Column(String(24), nullable=False)
     automatic = Column(Boolean, nullable=False)
