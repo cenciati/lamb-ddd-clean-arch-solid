@@ -1,10 +1,16 @@
+from uuid import uuid4
+
 import pytest
 
+from src.application.use_case.commentary.dto.add_commentary_dto import AddCommentaryDTO
 from src.application.use_case.user.dto.add_user_dto import AddUserDTO
 from src.domain.entity.commentary import Commentary
 from src.domain.value.rating import Rating
 from src.domain.value.slug import Slug
 from src.domain.value.tag import Tag
+from src.infrastructure.repository.memory.commentary_memory_repository import (
+    CommentaryInMemoryRepository,
+)
 from src.infrastructure.repository.memory.user_memory_repository import (
     UserInMemoryRepository,
 )
@@ -36,6 +42,66 @@ def comment_with_tags() -> Commentary:
         instance_slug=Slug(name="lamb"),
         journey_slug=Slug(name="generic"),
     )
+
+
+@pytest.fixture
+def repository_with_comment_in_memory() -> CommentaryInMemoryRepository:
+    new_comment = AddCommentaryDTO(
+        content="The experience was great in general.",
+        rating=Rating(score=9),
+        tags=[
+            Tag(id=0, name="Experience", sentiment=1, subtag=False),
+            Tag(id=1, name="Infrastructure", sentiment=1, subtag=False),
+        ],
+        customer_id=uuid4(),
+        instance_slug=Slug(name="lamb"),
+        journey_slug=Slug(name="site"),
+    )
+    repository = CommentaryInMemoryRepository()
+    repository.add(new_comment)
+    return repository
+
+
+@pytest.fixture
+def repository_with_comments_in_memory() -> CommentaryInMemoryRepository:
+    new_comment_1 = AddCommentaryDTO(
+        content="The experience was great in general.",
+        rating=Rating(score=9),
+        tags=[
+            Tag(id=0, name="Experience", sentiment=1, subtag=False),
+            Tag(id=1, name="Infrastructure", sentiment=1, subtag=False),
+        ],
+        customer_id=uuid4(),
+        instance_slug=Slug(name="lamb"),
+        journey_slug=Slug(name="site"),
+    )
+    new_comment_2 = AddCommentaryDTO(
+        content="It doesn't work properly.",
+        rating=Rating(score=2),
+        tags=[
+            Tag(id=0, name="Experience", sentiment=0, subtag=False),
+        ],
+        customer_id=uuid4(),
+        instance_slug=Slug(name="lamb"),
+        journey_slug=Slug(name="app"),
+    )
+    new_comment_3 = AddCommentaryDTO(
+        content="Support took a while to reply.",
+        rating=Rating(score=5),
+        tags=[
+            Tag(id=0, name="Experience", sentiment=1, subtag=False),
+            Tag(id=2, name="Support", sentiment=0, subtag=False),
+            Tag(id=3, name="Support - Agility", sentiment=0, subtag=True),
+        ],
+        customer_id=uuid4(),
+        instance_slug=Slug(name="lamb"),
+        journey_slug=Slug(name="site"),
+    )
+    repository = CommentaryInMemoryRepository()
+    repository.add(new_comment_1)
+    repository.add(new_comment_2)
+    repository.add(new_comment_3)
+    return repository
 
 
 @pytest.fixture

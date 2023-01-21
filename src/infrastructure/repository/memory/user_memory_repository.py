@@ -49,13 +49,13 @@ class UserInMemoryRepository(UserRepositoryInterface):
         except Exception as exc:
             raise Exception from exc
 
-    def update(self, id: UUID4, updated_entity: UpdateUserDTO) -> None:
+    def update(self, id: UUID4, updated_user: UpdateUserDTO) -> None:
         """Update user information by unique identifier."""
         try:
             self.database.get(id).update(
-                updated_entity.email,
-                updated_entity.password,
-                updated_entity.instance_slug,
+                updated_user.email,
+                updated_user.password,
+                updated_user.instance_slug,
             )
         except Exception as exc:
             raise Exception from exc

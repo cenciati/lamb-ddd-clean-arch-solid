@@ -19,10 +19,10 @@ def test_find_all_users_use_case_using_in_memory_repository(
 
     # Act
     all_users_found: Sequence[UserOutputDTO] = use_case.execute()
-    users_length: int = len(all_users_found)
+    users_amount_length: int = len(all_users_found)
 
     # Assert
-    assert users_length == 3
+    assert users_amount_length == 3
 
     assert all_users_found[0].email == "larrygaham@mail.com"
     assert all_users_found[0].password == "Dunno3222"

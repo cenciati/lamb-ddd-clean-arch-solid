@@ -35,44 +35,34 @@ def test_add_new_user_in_memory() -> None:
     assert database[0].instance_slug.name == "lamb"
 
 
-def test_find_user_in_memory() -> None:
+def test_find_user_in_memory(
+    repository_with_user_in_memory: UserInMemoryRepository,
+) -> None:
     # Arrange
-    new_user = AddUserDTO(
-        email="johndoe@mail.com",
-        password="iloveapples",
-        instance_slug=Slug(name="lamb"),
-    )
-    user_repository = UserInMemoryRepository()
-    user_repository.add(new_user)
-    created_user_id: UUID4 = list(user_repository.database.keys())[0]
+    created_user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
 
     # Act
-    found_user: UserOutputDTO = user_repository.find(created_user_id)
+    found_user: UserOutputDTO = repository_with_user_in_memory.find(created_user_id)
 
     # Assert
-    assert len(user_repository.database) == 1
+    assert len(repository_with_user_in_memory.database) == 1
     assert found_user.email == "johndoe@mail.com"
-    assert found_user.password == "iloveapples"
+    assert found_user.password == "iLoveApples2001"
     assert found_user.instance_slug.name == "lamb"
 
 
-def test_find_user_by_email_in_memory() -> None:
-    # Arrange
-    new_user = AddUserDTO(
-        email="johndoe@mail.com",
-        password="iloveapples",
-        instance_slug=Slug(name="lamb"),
-    )
-    user_repository = UserInMemoryRepository()
-    user_repository.add(new_user)
-
+def test_find_user_by_email_in_memory(
+    repository_with_user_in_memory: UserInMemoryRepository,
+) -> None:
     # Act
-    found_user: UserOutputDTO = user_repository.find_by_email("johndoe@mail.com")
+    found_user: UserOutputDTO = repository_with_user_in_memory.find_by_email(
+        "johndoe@mail.com"
+    )
 
     # Assert
-    assert len(user_repository.database) == 1
+    assert len(repository_with_user_in_memory.database) == 1
     assert found_user.email == "johndoe@mail.com"
-    assert found_user.password == "iloveapples"
+    assert found_user.password == "iLoveApples2001"
     assert found_user.instance_slug.name == "lamb"
 
 
@@ -100,10 +90,10 @@ def test_find_all_users_in_memory() -> None:
 
     # Act
     all_users: Sequence[UserOutputDTO] = user_repository.find_all()
-    users_length: int = len(user_repository.database)
+    users_amount_length: int = len(user_repository.database)
 
     # Assert
-    assert users_length == 3
+    assert users_amount_length == 3
     assert all_users[0].email == "johndoe@mail.com"
     assert all_users[0].password == "iloveapples"
     assert all_users[0].instance_slug.name == "lamb1"
@@ -117,109 +107,82 @@ def test_find_all_users_in_memory() -> None:
     assert all_users[2].instance_slug.name == "lamb3"
 
 
-def test_update_user_email_in_memory() -> None:
+def test_update_user_email_in_memory(
+    repository_with_user_in_memory: UserInMemoryRepository,
+) -> None:
     # Arrange
-    new_user = AddUserDTO(
-        email="johndoe@mail.com",
-        password="iloveapples",
-        instance_slug=Slug(name="lamb"),
-    )
-    user_repository = UserInMemoryRepository()
-    user_repository.add(new_user)
+    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
+    updated_user = UpdateUserDTO(email="johndoe2@mail.com")
 
     # Act
-    user_id: UUID4 = list(user_repository.database.keys())[0]
-    updated_user = UpdateUserDTO(email="johndoe2@mail.com")
-    user_repository.update(user_id, updated_user)
-    database: list = list(user_repository.database.values())
+    repository_with_user_in_memory.update(user_id, updated_user)
+    database: list = list(repository_with_user_in_memory.database.values())
 
     # Assert
-    assert len(user_repository.database) == 1
+    assert len(repository_with_user_in_memory.database) == 1
     assert database[0].email == "johndoe2@mail.com"
 
 
-def test_update_user_password_in_memory() -> None:
+def test_update_user_password_in_memory(
+    repository_with_user_in_memory: UserInMemoryRepository,
+) -> None:
     # Arrange
-    new_user = AddUserDTO(
-        email="johndoe@mail.com",
-        password="iloveapples",
-        instance_slug=Slug(name="lamb"),
-    )
-    user_repository = UserInMemoryRepository()
-    user_repository.add(new_user)
+    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
+    updated_user = UpdateUserDTO(password="sausage755")
 
     # Act
-    user_id: UUID4 = list(user_repository.database.keys())[0]
-    updated_user = UpdateUserDTO(password="sausage755")
-    user_repository.update(user_id, updated_user)
-    database: list = list(user_repository.database.values())
+    repository_with_user_in_memory.update(user_id, updated_user)
+    database: list = list(repository_with_user_in_memory.database.values())
 
     # Assert
-    assert len(user_repository.database) == 1
+    assert len(repository_with_user_in_memory.database) == 1
     assert database[0].password == "sausage755"
 
 
-def test_update_user_instance_slug_in_memory() -> None:
+def test_update_user_instance_slug_in_memory(
+    repository_with_user_in_memory: UserInMemoryRepository,
+) -> None:
     # Arrange
-    new_user = AddUserDTO(
-        email="johndoe@mail.com",
-        password="iloveapples",
-        instance_slug=Slug(name="lamb"),
-    )
-    user_repository = UserInMemoryRepository()
-    user_repository.add(new_user)
+    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
+    updated_user = UpdateUserDTO(instance_slug=Slug(name="lamb4"))
 
     # Act
-    user_id: UUID4 = list(user_repository.database.keys())[0]
-    updated_user = UpdateUserDTO(instance_slug=Slug(name="lamb4"))
-    user_repository.update(user_id, updated_user)
-    database: list = list(user_repository.database.values())
+    repository_with_user_in_memory.update(user_id, updated_user)
+    database: list = list(repository_with_user_in_memory.database.values())
 
     # Assert
-    assert len(user_repository.database) == 1
+    assert len(repository_with_user_in_memory.database) == 1
     assert database[0].instance_slug.name == "lamb4"
 
 
-def test_update_entire_user_info_in_memory() -> None:
+def test_update_entire_user_info_in_memory(
+    repository_with_user_in_memory: UserInMemoryRepository,
+) -> None:
     # Arrange
-    new_user = AddUserDTO(
-        email="johndoe@mail.com",
-        password="iloveapples",
-        instance_slug=Slug(name="lamb"),
-    )
-    user_repository = UserInMemoryRepository()
-    user_repository.add(new_user)
-
-    # Act
-    user_id: UUID4 = list(user_repository.database.keys())[0]
+    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
     updated_user = UpdateUserDTO(
         email="johndoe2@mail.com",
         password="idontknow2006",
         instance_slug=Slug(name="lamb55"),
     )
-    user_repository.update(user_id, updated_user)
-    database: list = list(user_repository.database.values())
+
+    # Act
+    repository_with_user_in_memory.update(user_id, updated_user)
+    database: list = list(repository_with_user_in_memory.database.values())
 
     # Assert
-    assert len(user_repository.database) == 1
+    assert len(repository_with_user_in_memory.database) == 1
     assert database[0].email == "johndoe2@mail.com"
     assert database[0].password == "idontknow2006"
     assert database[0].instance_slug.name == "lamb55"
 
 
-def test_delete_user_in_memory() -> None:
-    # Arrange
-    new_user = AddUserDTO(
-        email="johndoe@mail.com",
-        password="iloveapples",
-        instance_slug=Slug(name="lamb"),
-    )
-    user_repository = UserInMemoryRepository()
-    user_repository.add(new_user)
-
+def test_delete_user_in_memory(
+    repository_with_user_in_memory: UserInMemoryRepository,
+) -> None:
     # Act
-    user_id: UUID4 = list(user_repository.database.keys())[0]
-    user_repository.delete(user_id)
+    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
+    repository_with_user_in_memory.delete(user_id)
 
     # Assert
-    assert len(user_repository.database) == 0
+    assert len(repository_with_user_in_memory.database) == 0
