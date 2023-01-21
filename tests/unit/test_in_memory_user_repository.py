@@ -6,10 +6,10 @@ from typing import Sequence
 
 from pydantic import UUID4
 
-from src.application.use_case.user.find_user_by_id.add_user_dto import AddUserDTO
-from src.application.use_case.user.find_user_by_id.update_user_dto import UpdateUserDTO
-from src.application.use_case.user.find_user_by_id.user_output_dto import UserOutputDTO
-from src.domain.value_object.slug import Slug
+from src.application.use_case.user.dto.add_user_dto import AddUserDTO
+from src.application.use_case.user.dto.update_user_dto import UpdateUserDTO
+from src.application.use_case.user.dto.user_output_dto import UserOutputDTO
+from src.domain.value.slug import Slug
 from src.infrastructure.repository.memory.user_memory_repository import (
     UserInMemoryRepository,
 )

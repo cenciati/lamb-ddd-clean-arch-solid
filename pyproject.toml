@@ -31,22 +31,19 @@ pytest-cov = "^4.0.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.black]
+line-length = 88
+
 [tool.isort]
 atomic = true
 profile = "black"
 line_length = 88
 skip_gitignore = true
 
-[tool.black]
-line-length = 88
-
-[tool.mypy]
-ignore_missing_imports = true
-plugins = "pydantic.mypy"
-
 [tool.pylint.'MESSAGES CONTROL']
 max-line-length = 88
 disable = ["C0114", "C0116", "R0903"]
+extension-pkg-whitelist = "pydantic"
 
 [tool.flake8]
 max-line-length = 88
@@ -70,3 +67,21 @@ testpaths = ["tests"]
 [tool.coverage.run]
 parallel = true
 source = ["tests"]
+
+[tool.mypy]
+show_error_codes = true
+follow_imports = "silent"
+ignore_missing_imports = false
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+warn_unused_configs = true
+disallow_subclassing_any = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+plugins = ["pydantic.mypy"]

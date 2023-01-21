@@ -3,7 +3,7 @@
 import pytest
 from pydantic.error_wrappers import ValidationError
 
-from src.domain.value_object.slug import Slug
+from src.domain.value.slug import Slug
 
 
 def test_slug_should_raise_an_error_if_it_has_any_whitespaces() -> None:

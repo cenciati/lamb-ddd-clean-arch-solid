@@ -13,7 +13,7 @@ from pydantic import (
     validator,
 )
 
-from src.domain.value_object.slug import Slug
+from src.domain.value.slug import Slug
 
 
 class User(BaseModel):

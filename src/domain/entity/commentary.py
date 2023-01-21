@@ -5,9 +5,9 @@ from uuid import uuid4
 
 from pydantic import UUID4, BaseModel, Field, PrivateAttr, ValidationError, validator
 
-from src.domain.value_object.rating import Rating
-from src.domain.value_object.slug import Slug
-from src.domain.value_object.tag import Tag
+from src.domain.value.rating import Rating
+from src.domain.value.slug import Slug
+from src.domain.value.tag import Tag
 
 
 class Commentary(BaseModel):

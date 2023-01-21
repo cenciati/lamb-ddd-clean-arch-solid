@@ -7,8 +7,8 @@ import pytest
 from pydantic.error_wrappers import ValidationError
 
 from src.domain.entity.commentary import Commentary
-from src.domain.value_object.rating import Rating
-from src.domain.value_object.slug import Slug
+from src.domain.value.rating import Rating
+from src.domain.value.slug import Slug
 
 
 def test_id_should_be_a_valid_uuid4(comment: Commentary) -> None:

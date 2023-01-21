@@ -5,7 +5,7 @@ from typing import Any, Optional, Sequence
 from pydantic import EmailStr
 
 from src.domain.repository.repository_interface import RepositoryInterface
-from src.domain.value_object.cpf import Cpf
+from src.domain.value.cpf import Cpf
 
 
 class CustomerRepositoryInterface(RepositoryInterface, ABC):

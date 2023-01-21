@@ -3,7 +3,7 @@
 import pytest
 from pydantic.error_wrappers import ValidationError
 
-from src.domain.value_object.tag import Tag
+from src.domain.value.tag import Tag
 
 
 def test_tag_name_should_raise_an_error_if_it_shorter_than_3_characters() -> None:

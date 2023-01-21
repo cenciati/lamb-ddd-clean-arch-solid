@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr
 
-from src.domain.value_object.slug import Slug
+from src.domain.value.slug import Slug
 
 
 class UpdateUserDTO(BaseModel):

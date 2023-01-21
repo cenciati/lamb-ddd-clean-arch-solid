@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from pydantic import UUID4, BaseModel, EmailStr, Field, ValidationError, validator
 
-from src.domain.value_object.cpf import Cpf
+from src.domain.value.cpf import Cpf
 
 
 class Customer(BaseModel):

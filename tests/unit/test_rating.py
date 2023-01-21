@@ -3,7 +3,7 @@
 import pytest
 from pydantic.error_wrappers import ValidationError
 
-from src.domain.value_object.rating import Rating
+from src.domain.value.rating import Rating
 
 
 def test_rating_score_should_raise_a_validation_error_if_it_is_lower_than_1() -> None:

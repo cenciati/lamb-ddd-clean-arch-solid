@@ -3,7 +3,7 @@
 import pytest
 from pydantic.error_wrappers import ValidationError
 
-from src.domain.value_object.cpf import Cpf
+from src.domain.value.cpf import Cpf
 
 
 def test_cpf_should_raise_an_error_if_its_size_is_greater_than_11() -> None:
