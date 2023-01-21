@@ -22,11 +22,6 @@ class RepositoryInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def update(self, id: Any, updated_entity: Any) -> None:
-        """Update information of something by unique identifier."""
-        raise NotImplementedError
-
-    @abstractmethod
     def delete(self, id: Any) -> None:
         """Delete something by unique identifier."""
         raise NotImplementedError
