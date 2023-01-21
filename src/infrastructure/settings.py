@@ -1,7 +1,11 @@
 import logging
+from os import getenv
 from typing import Optional
 
-from pydantic import BaseSettings, Field
+from dotenv import find_dotenv, load_dotenv
+from pydantic import BaseSettings
+
+load_dotenv(find_dotenv())
 
 
 class LoggingSettings(BaseSettings):
@@ -11,14 +15,14 @@ class LoggingSettings(BaseSettings):
 
 
 class DBSettings(BaseSettings):
-    """Database settings and environment variables."""
+    """Database settings, including the credentials."""
 
-    DB_DRIVER: Optional[str] = Field(..., env="DB_DRIVER")
-    DB_USER: Optional[str] = Field(..., env="DB_USER")
-    DB_PASSWORD: Optional[str] = Field(..., env="DB_PASSWORD")
-    DB_HOST: Optional[str] = Field(..., env="DB_HOST")
-    DB_PORT: Optional[str] = Field(..., env="DB_PORT")
-    DB_NAME: Optional[str] = Field(..., env="DB_NAME")
+    DB_DRIVER: Optional[str] = getenv("DB_DRIVER")
+    DB_USER: Optional[str] = getenv("DB_USER")
+    DB_PASSWORD: Optional[str] = getenv("DB_PASSWORD")
+    DB_HOST: Optional[str] = getenv("DB_HOST")
+    DB_PORT: Optional[str] = getenv("DB_PORT")
+    DB_NAME: Optional[str] = getenv("DB_NAME")
     SQLALCHEMY_DATABASE_URI: str = (
         f"{DB_DRIVER}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
@@ -31,6 +35,9 @@ class Settings(BaseSettings):
     BASE_URL: str = f"http://localhost:8000{API_V1_STR}"
     db: DBSettings = DBSettings()
     logging: LoggingSettings = LoggingSettings()
+
+    def get_db_connection_string(self) -> str:
+        return self.db.SQLALCHEMY_DATABASE_URI
 
     class Config:
         """Set default parameters."""
