@@ -100,23 +100,21 @@ def test_find_all_users_in_memory() -> None:
 
     # Act
     all_users: Sequence[UserOutputDTO] = user_repository.find_all()
-    user_1: UserOutputDTO = user_repository.database.get(all_users[0])
-    user_2: UserOutputDTO = user_repository.database.get(all_users[1])
-    user_3: UserOutputDTO = user_repository.database.get(all_users[2])
+    users_length: int = len(user_repository.database)
 
     # Assert
-    assert len(user_repository.database) == 3
-    assert user_1.email == "johndoe@mail.com"
-    assert user_1.password == "iloveapples"
-    assert user_1.instance_slug.name == "lamb1"
+    assert users_length == 3
+    assert all_users[0].email == "johndoe@mail.com"
+    assert all_users[0].password == "iloveapples"
+    assert all_users[0].instance_slug.name == "lamb1"
 
-    assert user_2.email == "claireb@mail.com"
-    assert user_2.password == "films2008"
-    assert user_2.instance_slug.name == "lamb2"
+    assert all_users[1].email == "claireb@mail.com"
+    assert all_users[1].password == "films2008"
+    assert all_users[1].instance_slug.name == "lamb2"
 
-    assert user_3.email == "mikeadams@mail.com"
-    assert user_3.password == "keyboardiscool99999999"
-    assert user_3.instance_slug.name == "lamb3"
+    assert all_users[2].email == "mikeadams@mail.com"
+    assert all_users[2].password == "keyboardiscool99999999"
+    assert all_users[2].instance_slug.name == "lamb3"
 
 
 def test_update_user_email_in_memory() -> None:

@@ -1,9 +1,13 @@
 import pytest
 
+from src.application.use_case.user.dto.add_user_dto import AddUserDTO
 from src.domain.entity.commentary import Commentary
 from src.domain.value.rating import Rating
 from src.domain.value.slug import Slug
 from src.domain.value.tag import Tag
+from src.infrastructure.repository.memory.user_memory_repository import (
+    UserInMemoryRepository,
+)
 
 
 @pytest.fixture
@@ -32,3 +36,39 @@ def comment_with_tags() -> Commentary:
         instance_slug=Slug(name="lamb"),
         journey_slug=Slug(name="generic"),
     )
+
+
+@pytest.fixture
+def repository_with_user_in_memory() -> UserInMemoryRepository:
+    new_user = AddUserDTO(
+        email="johndoe@mail.com",
+        password="iLoveApples2001",
+        instance_slug=Slug(name="lamb"),
+    )
+    repository = UserInMemoryRepository()
+    repository.add(new_user)
+    return repository
+
+
+@pytest.fixture
+def repository_with_users_in_memory() -> UserInMemoryRepository:
+    new_user_1 = AddUserDTO(
+        email="larrygaham@mail.com",
+        password="Dunno3222",
+        instance_slug=Slug(name="lamb-1"),
+    )
+    new_user_2 = AddUserDTO(
+        email="vanessamiwb@mail.com",
+        password="wEIrDpass003woRd",
+        instance_slug=Slug(name="lamb-2"),
+    )
+    new_user_3 = AddUserDTO(
+        email="michaelrmanson@mail.com",
+        password="allRIGHT2000Pass",
+        instance_slug=Slug(name="lamb-3"),
+    )
+    repository = UserInMemoryRepository()
+    repository.add(new_user_1)
+    repository.add(new_user_2)
+    repository.add(new_user_3)
+    return repository

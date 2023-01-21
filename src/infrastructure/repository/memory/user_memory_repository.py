@@ -45,7 +45,7 @@ class UserInMemoryRepository(UserRepositoryInterface):
     def find_all(self) -> Optional[Sequence[UserOutputDTO]]:
         """Find all users from memory."""
         try:
-            return list(self.database)
+            return list(self.database.values())
         except Exception as exc:
             raise Exception from exc
 
