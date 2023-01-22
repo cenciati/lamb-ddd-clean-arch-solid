@@ -3,8 +3,10 @@ from uuid import uuid4
 
 import pytest
 
-from src.application.use_case.commentary.dto.add_commentary_dto import AddCommentaryDTO
-from src.application.use_case.user.dto.add_user_dto import AddUserDTO
+from src.application.use_case.commentary.add.add_commentary_dto import (
+    InputAddCommentaryDTO,
+)
+from src.application.use_case.user.add.add_user_dto import InputAddUserDTO
 from src.domain.entity.commentary import Commentary
 from src.domain.value.rating import Rating
 from src.domain.value.slug import Slug
@@ -46,8 +48,8 @@ def comment_with_tags() -> Commentary:
 
 
 @pytest.fixture
-def new_comment() -> AddCommentaryDTO:
-    return AddCommentaryDTO(
+def new_comment() -> InputAddCommentaryDTO:
+    return InputAddCommentaryDTO(
         content="The experience was great in general.",
         rating=Rating(score=9),
         tags=[
@@ -62,7 +64,7 @@ def new_comment() -> AddCommentaryDTO:
 
 @pytest.fixture
 def repository_with_comment_in_memory(
-    new_comment: AddCommentaryDTO,
+    new_comment: InputAddCommentaryDTO,
 ) -> CommentaryInMemoryRepository:
     repository = CommentaryInMemoryRepository()
     repository.add(new_comment)
@@ -71,7 +73,7 @@ def repository_with_comment_in_memory(
 
 @pytest.fixture
 def repository_with_comments_in_memory() -> CommentaryInMemoryRepository:
-    new_comment_1 = AddCommentaryDTO(
+    new_comment_1 = InputAddCommentaryDTO(
         content="The experience was great in general.",
         rating=Rating(score=9),
         tags=[
@@ -82,7 +84,7 @@ def repository_with_comments_in_memory() -> CommentaryInMemoryRepository:
         instance_slug=Slug(name="lamb"),
         journey_slug=Slug(name="site"),
     )
-    new_comment_2 = AddCommentaryDTO(
+    new_comment_2 = InputAddCommentaryDTO(
         content="It doesn't work properly.",
         rating=Rating(score=2),
         tags=[
@@ -92,7 +94,7 @@ def repository_with_comments_in_memory() -> CommentaryInMemoryRepository:
         instance_slug=Slug(name="lamb"),
         journey_slug=Slug(name="app"),
     )
-    new_comment_3 = AddCommentaryDTO(
+    new_comment_3 = InputAddCommentaryDTO(
         content="Support took a while to reply.",
         rating=Rating(score=5),
         tags=[
@@ -113,7 +115,7 @@ def repository_with_comments_in_memory() -> CommentaryInMemoryRepository:
 
 @pytest.fixture
 def repository_with_user_in_memory() -> UserInMemoryRepository:
-    new_user = AddUserDTO(
+    new_user = InputAddUserDTO(
         email="johndoe@mail.com",
         password="iLoveApples2001",
         instance_slug=Slug(name="lamb"),
@@ -125,17 +127,17 @@ def repository_with_user_in_memory() -> UserInMemoryRepository:
 
 @pytest.fixture
 def repository_with_users_in_memory() -> UserInMemoryRepository:
-    new_user_1 = AddUserDTO(
+    new_user_1 = InputAddUserDTO(
         email="larrygaham@mail.com",
         password="Dunno3222",
         instance_slug=Slug(name="lamb-1"),
     )
-    new_user_2 = AddUserDTO(
+    new_user_2 = InputAddUserDTO(
         email="vanessamiwb@mail.com",
         password="wEIrDpass003woRd",
         instance_slug=Slug(name="lamb-2"),
     )
-    new_user_3 = AddUserDTO(
+    new_user_3 = InputAddUserDTO(
         email="michaelrmanson@mail.com",
         password="allRIGHT2000Pass",
         instance_slug=Slug(name="lamb-3"),

@@ -1,11 +1,15 @@
 # pylint: disable=no-name-in-module,redefined-builtin, duplicate-code
 from typing import Optional, Sequence
 
-from pydantic import UUID4
-
-from src.application.use_case.commentary.dto.add_commentary_dto import AddCommentaryDTO
-from src.application.use_case.commentary.dto.commentary_output_dto import (
-    CommentaryOutputDTO,
+from src.application.use_case.commentary.add.add_commentary_dto import (
+    InputAddCommentaryDTO,
+)
+from src.application.use_case.commentary.delete.delete_commentary_dto import (
+    InputDeleteCommentaryDTO,
+)
+from src.application.use_case.commentary.find.find_commentary_dto import (
+    InputFindCommentaryDTO,
+    OutputFindCommentaryDTO,
 )
 from src.domain.entity.commentary import Commentary
 from src.domain.repository.commentary_repository_interface import (
@@ -19,7 +23,7 @@ class CommentaryInMemoryRepository(CommentaryRepositoryInterface):
     def __init__(self) -> None:
         self.database = {}
 
-    def add(self, entity: AddCommentaryDTO) -> None:
+    def add(self, entity: InputAddCommentaryDTO) -> None:
         """Add commentary into memory."""
         try:
             new_comment = Commentary(
@@ -35,36 +39,36 @@ class CommentaryInMemoryRepository(CommentaryRepositoryInterface):
         except Exception as exc:
             raise Exception from exc
 
-    def find(self, id: UUID4) -> Optional[CommentaryOutputDTO]:
+    def find(self, input: InputFindCommentaryDTO) -> Optional[OutputFindCommentaryDTO]:
         """Find commentary by unique identifier."""
         try:
-            return self.database.get(id)
+            return self.database.get(input.id)
         except Exception as exc:
             raise Exception from exc
 
-    def find_by_instance(
-        self, instance_slug: str
-    ) -> Optional[Sequence[CommentaryOutputDTO]]:
+    def find_by_instance_slug(
+        self, input: InputFindCommentaryDTO
+    ) -> Optional[Sequence[OutputFindCommentaryDTO]]:
         """Find commentaries by instance."""
         try:
             return [
                 comment
                 for _, comment in self.database.items()
-                if comment.instance_slug.name == instance_slug
+                if comment.instance_slug.name == input.instance_slug.name
             ]
         except Exception as exc:
             raise Exception from exc
 
-    def find_all(self) -> Optional[Sequence[CommentaryOutputDTO]]:
+    def find_all(self) -> Optional[Sequence[OutputFindCommentaryDTO]]:
         """Find all commentaries from memory."""
         try:
             return list(self.database.values())
         except Exception as exc:
             raise Exception from exc
 
-    def delete(self, id: UUID4) -> None:
+    def delete(self, input: InputDeleteCommentaryDTO) -> None:
         """Delete commentary by ID."""
         try:
-            self.database.pop(id)
+            self.database.pop(input.id)
         except Exception as exc:
             raise Exception from exc

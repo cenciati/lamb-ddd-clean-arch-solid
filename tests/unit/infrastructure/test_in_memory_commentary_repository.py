@@ -6,9 +6,15 @@ from typing import Sequence
 
 from pydantic import UUID4
 
-from src.application.use_case.commentary.dto.add_commentary_dto import AddCommentaryDTO
-from src.application.use_case.commentary.dto.commentary_output_dto import (
-    CommentaryOutputDTO,
+from src.application.use_case.commentary.add.add_commentary_dto import (
+    InputAddCommentaryDTO,
+)
+from src.application.use_case.commentary.delete.delete_commentary_dto import (
+    InputDeleteCommentaryDTO,
+)
+from src.application.use_case.commentary.find.find_commentary_dto import (
+    InputFindCommentaryDTO,
+    OutputFindCommentaryDTO,
 )
 from src.domain.value.rating import Rating
 from src.domain.value.slug import Slug
@@ -18,7 +24,7 @@ from src.infrastructure.repository.memory.commentary_memory_repository import (
 )
 
 
-def test_add_new_comment_in_memory(new_comment: AddCommentaryDTO) -> None:
+def test_add_new_comment_in_memory(new_comment: InputAddCommentaryDTO) -> None:
     # Arrange
     customer_id: UUID4 = new_comment.customer_id
 
@@ -45,10 +51,11 @@ def test_find_comment_in_memory(
 ) -> None:
     # Arrange
     comment_id: UUID4 = list(repository_with_comment_in_memory.database.keys())[0]
+    comment = InputFindCommentaryDTO(id=comment_id)
 
     # Act
-    found_comment: CommentaryOutputDTO = repository_with_comment_in_memory.find(
-        comment_id
+    found_comment: InputAddCommentaryDTO = repository_with_comment_in_memory.find(
+        comment
     )
 
     # Assert
@@ -66,9 +73,12 @@ def test_find_comment_in_memory(
 def test_find_user_by_instance_slug_in_memory(
     repository_with_comments_in_memory: CommentaryInMemoryRepository,
 ) -> None:
+    # Arrange
+    comment = InputFindCommentaryDTO(instance_slug=Slug(name="lamb"))
+
     # Act
-    found_comments: CommentaryOutputDTO = (
-        repository_with_comments_in_memory.find_by_instance("lamb")
+    found_comments: OutputFindCommentaryDTO = (
+        repository_with_comments_in_memory.find_by_instance_slug(comment)
     )
 
     # Assert
@@ -83,7 +93,7 @@ def test_find_all_comments_in_memory(
 ) -> None:
     # Act
     all_comments: Sequence[
-        CommentaryOutputDTO
+        InputAddCommentaryDTO
     ] = repository_with_comments_in_memory.find_all()
     comments_amount_length: int = len(repository_with_comments_in_memory.database)
 
@@ -123,7 +133,8 @@ def test_delete_comment_in_memory(
 ) -> None:
     # Act
     comment_id: UUID4 = list(repository_with_comment_in_memory.database.keys())[0]
-    repository_with_comment_in_memory.delete(comment_id)
+    deleted_comment = InputDeleteCommentaryDTO(id=comment_id)
+    repository_with_comment_in_memory.delete(deleted_comment)
 
     # Assert
     assert len(repository_with_comment_in_memory.database) == 0

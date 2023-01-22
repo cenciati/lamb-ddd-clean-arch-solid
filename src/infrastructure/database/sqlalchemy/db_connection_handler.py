@@ -16,6 +16,10 @@ class DBConnectionHandler:
         self.__engine: Engine = self.__create_database_engine()
         self.session = None
 
+    def get_engine(self) -> Engine:
+        """Retrieves a created engine."""
+        return self.__engine
+
     def __create_database_engine(self) -> Engine:
         """Creates a connection engine using the provided database
             connection string.
@@ -23,10 +27,6 @@ class DBConnectionHandler:
             A new connection engine object.
         """
         return create_engine(self.__connection_string)
-
-    def get_engine(self) -> Engine:
-        """Retrieves a created engine."""
-        return self.__engine
 
     def __enter__(self):
         """Creates a new database session when entering the context.

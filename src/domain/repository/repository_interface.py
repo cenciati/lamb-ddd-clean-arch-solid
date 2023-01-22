@@ -12,7 +12,7 @@ class RepositoryInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find(self, id: Any) -> Optional[Any]:
+    def find(self, input: Any) -> Optional[Any]:
         """Find something by unique identifier."""
         raise NotImplementedError
 
@@ -22,6 +22,6 @@ class RepositoryInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def delete(self, id: Any) -> None:
+    def delete(self, input: Any) -> None:
         """Delete something by unique identifier."""
         raise NotImplementedError

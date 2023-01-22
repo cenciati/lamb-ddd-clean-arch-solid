@@ -1,10 +1,12 @@
 # pylint: disable=no-name-in-module, invalid-name, redefined-builtin
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Optional
 
-from pydantic import UUID4, EmailStr
-
-from src.application.use_case.user.dto.update_user_dto import UpdateUserDTO
+from src.application.use_case.user.find.find_user_dto import (
+    InputFindUserDTO,
+    OutputFindUserDTO,
+)
+from src.application.use_case.user.update.update_user_dto import InputUpdateUserDTO
 from src.domain.repository.repository_interface import RepositoryInterface
 
 
@@ -12,11 +14,11 @@ class UserRepositoryInterface(RepositoryInterface, ABC):
     """Interface for managing user aggregates."""
 
     @abstractmethod
-    def find_by_email(self, email: EmailStr) -> Optional[Any]:
+    def find_by_email(self, input: InputFindUserDTO) -> Optional[OutputFindUserDTO]:
         """Find user by email."""
         raise NotImplementedError
 
     @abstractmethod
-    def update(self, id: UUID4, updated_user: UpdateUserDTO) -> None:
+    def update(self, input: InputUpdateUserDTO) -> None:
         """Update user by ID."""
         raise NotImplementedError
