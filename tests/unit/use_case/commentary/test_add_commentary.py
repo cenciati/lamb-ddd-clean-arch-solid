@@ -1,8 +1,6 @@
 # pylint: disable=line-too-long, protected-access, disable=no-name-in-module
 # flake8: noqa
 
-from uuid import uuid4
-
 from pydantic import UUID4
 
 from src.application.use_case.commentary.add_commentary import AddCommentary
@@ -18,20 +16,11 @@ from src.infrastructure.repository.memory.commentary_memory_repository import (
 )
 
 
-def test_add_comment_use_case_using_in_memory_repository() -> None:
+def test_add_comment_use_case_using_in_memory_repository(
+    new_comment: AddCommentaryDTO,
+) -> None:
     # Arrange
-    customer_id: UUID4 = uuid4()
-    new_comment = AddCommentaryDTO(
-        content="The experience was great in general.",
-        rating=Rating(score=9),
-        tags=[
-            Tag(id=0, name="Experience", sentiment=1, subtag=False),
-            Tag(id=1, name="Infrastructure", sentiment=1, subtag=False),
-        ],
-        customer_id=customer_id,
-        instance_slug=Slug(name="lamb"),
-        journey_slug=Slug(name="site"),
-    )
+    customer_id: UUID4 = new_comment.customer_id
     repository = CommentaryInMemoryRepository()
     use_case = AddCommentary(repository)
 

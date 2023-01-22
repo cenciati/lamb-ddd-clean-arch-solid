@@ -1,3 +1,4 @@
+# pylint: disable=redefined-outer-name
 from uuid import uuid4
 
 import pytest
@@ -45,8 +46,8 @@ def comment_with_tags() -> Commentary:
 
 
 @pytest.fixture
-def repository_with_comment_in_memory() -> CommentaryInMemoryRepository:
-    new_comment = AddCommentaryDTO(
+def new_comment() -> AddCommentaryDTO:
+    return AddCommentaryDTO(
         content="The experience was great in general.",
         rating=Rating(score=9),
         tags=[
@@ -57,6 +58,12 @@ def repository_with_comment_in_memory() -> CommentaryInMemoryRepository:
         instance_slug=Slug(name="lamb"),
         journey_slug=Slug(name="site"),
     )
+
+
+@pytest.fixture
+def repository_with_comment_in_memory(
+    new_comment: AddCommentaryDTO,
+) -> CommentaryInMemoryRepository:
     repository = CommentaryInMemoryRepository()
     repository.add(new_comment)
     return repository

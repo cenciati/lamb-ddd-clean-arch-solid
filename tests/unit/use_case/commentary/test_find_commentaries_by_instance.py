@@ -7,7 +7,7 @@ from typing import Sequence
 from src.application.use_case.commentary.dto.commentary_output_dto import (
     CommentaryOutputDTO,
 )
-from src.application.use_case.commentary.find_commentary_by_instance_slug import (
+from src.application.use_case.commentary.find_commentaries_by_instance_slug import (
     FindCommentariesByInstanceSlug,
 )
 from src.infrastructure.repository.memory.commentary_memory_repository import (

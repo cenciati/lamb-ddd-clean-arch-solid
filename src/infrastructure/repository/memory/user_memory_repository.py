@@ -1,4 +1,4 @@
-# pylint: disable=no-name-in-module,redefined-builtin
+# pylint: disable=no-name-in-module,redefined-builtin, duplicate-code
 from typing import Optional, Sequence
 
 from pydantic import UUID4, EmailStr

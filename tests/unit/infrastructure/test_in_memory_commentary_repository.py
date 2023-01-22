@@ -1,9 +1,8 @@
-# pylint: disable=line-too-long, protected-access, disable=no-name-in-module
+# pylint: disable=line-too-long, protected-access, no-name-in-module, duplicate-code
 # flake8: noqa
 
 
 from typing import Sequence
-from uuid import uuid4
 
 from pydantic import UUID4
 
@@ -19,20 +18,9 @@ from src.infrastructure.repository.memory.commentary_memory_repository import (
 )
 
 
-def test_add_new_comment_in_memory() -> None:
+def test_add_new_comment_in_memory(new_comment: AddCommentaryDTO) -> None:
     # Arrange
-    customer_id: UUID4 = uuid4()
-    new_comment = AddCommentaryDTO(
-        content="The experience was great in general.",
-        rating=Rating(score=9),
-        tags=[
-            Tag(id=0, name="Experience", sentiment=1, subtag=False),
-            Tag(id=1, name="Infrastructure", sentiment=1, subtag=False),
-        ],
-        customer_id=customer_id,
-        instance_slug=Slug(name="lamb"),
-        journey_slug=Slug(name="site"),
-    )
+    customer_id: UUID4 = new_comment.customer_id
 
     # Act
     comment_repository = CommentaryInMemoryRepository()

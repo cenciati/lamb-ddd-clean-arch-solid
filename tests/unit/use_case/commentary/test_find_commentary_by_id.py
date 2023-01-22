@@ -1,4 +1,4 @@
-# pylint: disable=line-too-long, protected-access, disable=no-name-in-module
+# pylint: disable=line-too-long, protected-access, no-name-in-module, duplicate-code
 # flake8: noqa
 
 
