@@ -72,45 +72,27 @@ def test_find_user_by_email_in_memory(
     assert found_user.instance_slug.name == "lamb"
 
 
-def test_find_all_users_in_memory() -> None:
-    # Arrange
-    new_user_1 = InputAddUserDTO(
-        email="johndoe@mail.com",
-        password="iloveapples",
-        instance_slug=Slug(name="lamb1"),
-    )
-    new_user_2 = InputAddUserDTO(
-        email="claireb@mail.com",
-        password="films2008",
-        instance_slug=Slug(name="lamb2"),
-    )
-    new_user_3 = InputAddUserDTO(
-        email="mikeadams@mail.com",
-        password="keyboardiscool99999999",
-        instance_slug=Slug(name="lamb3"),
-    )
-    user_repository = UserInMemoryRepository()
-    user_repository.add(new_user_1)
-    user_repository.add(new_user_2)
-    user_repository.add(new_user_3)
-
+def test_find_all_users_in_memory(
+    repository_with_users_in_memory: UserInMemoryRepository,
+) -> None:
     # Act
-    all_users: Sequence[OutputFindUserDTO] = user_repository.find_all()
-    users_amount_length: int = len(user_repository.database)
+    all_users: Sequence[OutputFindUserDTO] = repository_with_users_in_memory.find_all()
+    users_amount_length: int = len(repository_with_users_in_memory.database)
 
     # Assert
     assert users_amount_length == 3
-    assert all_users[0].email == "johndoe@mail.com"
-    assert all_users[0].password == "iloveapples"
-    assert all_users[0].instance_slug.name == "lamb1"
 
-    assert all_users[1].email == "claireb@mail.com"
-    assert all_users[1].password == "films2008"
-    assert all_users[1].instance_slug.name == "lamb2"
+    assert all_users[0].email == "larrygaham@mail.com"
+    assert all_users[0].password == "Dunno3222"
+    assert all_users[0].instance_slug.name == "lamb-1"
 
-    assert all_users[2].email == "mikeadams@mail.com"
-    assert all_users[2].password == "keyboardiscool99999999"
-    assert all_users[2].instance_slug.name == "lamb3"
+    assert all_users[1].email == "vanessamiwb@mail.com"
+    assert all_users[1].password == "wEIrDpass003woRd"
+    assert all_users[1].instance_slug.name == "lamb-2"
+
+    assert all_users[2].email == "michaelrmanson@mail.com"
+    assert all_users[2].password == "allRIGHT2000Pass"
+    assert all_users[2].instance_slug.name == "lamb-3"
 
 
 def test_update_user_email_in_memory(

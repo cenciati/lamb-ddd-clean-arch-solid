@@ -1,22 +1,27 @@
 # pylint: disable=no-name-in-module, invalid-name, redefined-builtin
 from abc import ABC, abstractmethod
-from typing import Any, Optional, Sequence
+from typing import Optional
 
-from pydantic import EmailStr
-
+from src.application.use_case.customer.find.find_customer_dto import (
+    InputFindCustomerDTO,
+    OutputFindCustomerDTO,
+)
 from src.domain.repository.repository_interface import RepositoryInterface
-from src.domain.value.cpf import Cpf
 
 
 class CustomerRepositoryInterface(RepositoryInterface, ABC):
     """Interface for managing customer aggregates."""
 
     @abstractmethod
-    def find_by_email(self, email: EmailStr) -> Optional[Sequence[Any]]:
+    def find_by_email(
+        self, input: InputFindCustomerDTO
+    ) -> Optional[OutputFindCustomerDTO]:
         """Find customer by email."""
         raise NotImplementedError
 
     @abstractmethod
-    def find_by_cpf(self, cpf: Cpf) -> Optional[Sequence[Any]]:
+    def find_by_cpf(
+        self, input: InputFindCustomerDTO
+    ) -> Optional[OutputFindCustomerDTO]:
         """Find customer by cpf."""
         raise NotImplementedError

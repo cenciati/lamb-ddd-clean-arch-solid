@@ -51,6 +51,10 @@ class User(BaseModel):
     def updated_at(self) -> datetime:
         return self.__updated_at
 
+    @updated_at.setter
+    def updated_at(self, value) -> None:
+        self.__updated_at = value
+
     def update(
         self,
         new_email: Optional[EmailStr],
@@ -63,3 +67,6 @@ class User(BaseModel):
             self.password = new_password
         if new_instance_slug:
             self.instance_slug = new_instance_slug
+        was_there_any_update: bool = new_email or new_password or new_instance_slug
+        if was_there_any_update:
+            self.__updated_at = datetime.utcnow()

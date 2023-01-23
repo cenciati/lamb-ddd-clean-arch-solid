@@ -6,13 +6,18 @@ import pytest
 from src.application.use_case.commentary.add.add_commentary_dto import (
     InputAddCommentaryDTO,
 )
+from src.application.use_case.customer.add.add_customer_dto import InputAddCustomerDTO
 from src.application.use_case.user.add.add_user_dto import InputAddUserDTO
 from src.domain.entity.commentary import Commentary
+from src.domain.value.cpf import Cpf
 from src.domain.value.rating import Rating
 from src.domain.value.slug import Slug
 from src.domain.value.tag import Tag
 from src.infrastructure.repository.memory.commentary_memory_repository import (
     CommentaryInMemoryRepository,
+)
+from src.infrastructure.repository.memory.customer_memory_repository import (
+    CustomerInMemoryRepository,
 )
 from src.infrastructure.repository.memory.user_memory_repository import (
     UserInMemoryRepository,
@@ -146,4 +151,40 @@ def repository_with_users_in_memory() -> UserInMemoryRepository:
     repository.add(new_user_1)
     repository.add(new_user_2)
     repository.add(new_user_3)
+    return repository
+
+
+@pytest.fixture
+def repository_with_customer_in_memory() -> CustomerInMemoryRepository:
+    new_customer = InputAddCustomerDTO(
+        full_name="John Doe",
+        email="johndoe@mail.com",
+        cpf=Cpf(number="01234567890"),
+    )
+    repository = CustomerInMemoryRepository()
+    repository.add(new_customer)
+    return repository
+
+
+@pytest.fixture
+def repository_with_customers_in_memory() -> CustomerInMemoryRepository:
+    new_customer_1 = InputAddCustomerDTO(
+        full_name="John Doe",
+        email="johndoe@mail.com",
+        cpf=Cpf(number="01234567890"),
+    )
+    new_customer_2 = InputAddCustomerDTO(
+        full_name="Mark Blo",
+        email="markblo@mail.com",
+        cpf=Cpf(number="01234567891"),
+    )
+    new_customer_3 = InputAddCustomerDTO(
+        full_name="Vanessa Suhm",
+        email="vanessasuhm@mail.com",
+        cpf=Cpf(number="01234567892"),
+    )
+    repository = CustomerInMemoryRepository()
+    repository.add(new_customer_1)
+    repository.add(new_customer_2)
+    repository.add(new_customer_3)
     return repository
