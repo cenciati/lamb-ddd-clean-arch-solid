@@ -59,4 +59,4 @@ jobs:
 
     - name: Run tests
       shell: bash
-      run: python -m poetry run python -m pytest
+      run: python -m poetry run python -m pytest -k "not need_dot_env"
