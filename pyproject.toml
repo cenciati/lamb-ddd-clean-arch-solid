@@ -65,6 +65,7 @@ addopts = [
 filterwarnings = ["error"]
 testpaths = ["tests"]
 markers = [
+    "need_dot_env: tests that consult data in a dot env file.",
     "unit: unit tests.",
     "integration: integration tests.",
     "e2e: end-to-end tests."
