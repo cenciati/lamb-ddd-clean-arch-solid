@@ -8,7 +8,7 @@ from src.application.use_case.customer.find.find_customer_by_email import (
     FindCustomerByEmailUseCase,
 )
 from src.application.use_case.customer.find.find_customer_dto import (
-    InputFindCustomerDTO,
+    InputFindCustomerByEmailDTO,
     OutputFindCustomerDTO,
 )
 from src.infrastructure.repository.memory.customer_memory_repository import (
@@ -24,7 +24,7 @@ def test_find_customer_by_email_use_case_using_in_memory_repository(
     email: EmailStr = list(repository_with_customer_in_memory.database.values())[
         0
     ].email
-    customer = InputFindCustomerDTO(email=email)
+    customer = InputFindCustomerByEmailDTO(email=email)
 
     # Act
     found_customer: OutputFindCustomerDTO = use_case.execute(customer)

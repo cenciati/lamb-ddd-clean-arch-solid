@@ -7,7 +7,6 @@ from src.application.use_case.customer.add.add_customer_dto import InputAddCusto
 from src.application.use_case.customer.find.find_customer_dto import (
     OutputFindCustomerDTO,
 )
-from src.domain.value.cpf import Cpf
 from src.infrastructure.repository.memory.customer_memory_repository import (
     CustomerInMemoryRepository,
 )
@@ -16,7 +15,7 @@ from src.infrastructure.repository.memory.customer_memory_repository import (
 def test_add_customer_use_case_using_in_memory_repository() -> None:
     # Arrange
     new_customer = InputAddCustomerDTO(
-        full_name="John Doe", email="johndoe@mail.com", cpf=Cpf(number="01234567890")
+        full_name="John Doe", email="johndoe@mail.com", cpf="01234567890"
     )
     repository = CustomerInMemoryRepository()
     use_case = AddCustomerUseCase(repository)

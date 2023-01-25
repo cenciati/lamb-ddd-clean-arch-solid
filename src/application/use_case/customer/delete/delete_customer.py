@@ -1,4 +1,4 @@
-# pylint: disable=no-name-in-module,redefined-builtin
+# pylint: disable=no-name-in-module
 
 from src.application.use_case.customer.delete.delete_customer_dto import (
     InputDeleteCustomerDTO,
@@ -14,6 +14,6 @@ class DeleteCustomerUseCase:
     def __init__(self, repository: CustomerRepositoryInterface):
         self.repository = repository
 
-    def execute(self, input: InputDeleteCustomerDTO) -> None:
+    def execute(self, data: InputDeleteCustomerDTO) -> None:
         """Triggers the flow to execute the use case."""
-        self.repository.delete(input)
+        self.repository.delete(data)

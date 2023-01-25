@@ -1,7 +1,7 @@
 # pylint: disable=no-name-in-module, missing-class-docstring
 
-from pydantic import UUID4, BaseModel
+from pydantic import BaseModel
 
 
 class InputDeleteCommentaryDTO(BaseModel):
-    id: UUID4
+    id: str

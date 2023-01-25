@@ -1,8 +1,8 @@
-# pylint: disable=no-name-in-module,redefined-builtin
+# pylint: disable=no-name-in-module
 from typing import Optional
 
 from src.application.use_case.user.find.find_user_dto import (
-    InputFindUserDTO,
+    InputFindUserByIDDTO,
     OutputFindUserDTO,
 )
 from src.domain.repository.user_repository_interface import UserRepositoryInterface
@@ -14,6 +14,6 @@ class FindUserByIDUseCase:
     def __init__(self, repository: UserRepositoryInterface):
         self.repository = repository
 
-    def execute(self, input: InputFindUserDTO) -> Optional[OutputFindUserDTO]:
+    def execute(self, data: InputFindUserByIDDTO) -> Optional[OutputFindUserDTO]:
         """Triggers the flow to execute the use case."""
-        return self.repository.find(input)
+        return self.repository.find(data)

@@ -4,16 +4,14 @@
 
 from typing import Sequence
 
-from pydantic import UUID4
-
 from src.application.use_case.user.add.add_user_dto import InputAddUserDTO
 from src.application.use_case.user.delete.delete_user_dto import InputDeleteUserDTO
 from src.application.use_case.user.find.find_user_dto import (
-    InputFindUserDTO,
+    InputFindUserByEmailDTO,
+    InputFindUserByIDDTO,
     OutputFindUserDTO,
 )
 from src.application.use_case.user.update.update_user_dto import InputUpdateUserDTO
-from src.domain.value.slug import Slug
 from src.infrastructure.repository.memory.user_memory_repository import (
     UserInMemoryRepository,
 )
@@ -24,7 +22,7 @@ def test_add_new_user_in_memory() -> None:
     new_user = InputAddUserDTO(
         email="johndoe@mail.com",
         password="iloveapples",
-        instance_slug=Slug(name="lamb"),
+        instance_slug="lamb",
     )
 
     # Act
@@ -43,8 +41,8 @@ def test_find_user_in_memory(
     repository_with_user_in_memory: UserInMemoryRepository,
 ) -> None:
     # Arrange
-    created_user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
-    user = InputFindUserDTO(id=created_user_id)
+    created_user_id: str = str(list(repository_with_user_in_memory.database.keys())[0])
+    user = InputFindUserByIDDTO(id=created_user_id)
 
     # Act
     found_user: OutputFindUserDTO = repository_with_user_in_memory.find(user)
@@ -60,7 +58,7 @@ def test_find_user_by_email_in_memory(
     repository_with_user_in_memory: UserInMemoryRepository,
 ) -> None:
     # Arrange
-    user = InputFindUserDTO(email="johndoe@mail.com")
+    user = InputFindUserByEmailDTO(email="johndoe@mail.com")
 
     # Act
     found_user: OutputFindUserDTO = repository_with_user_in_memory.find_by_email(user)
@@ -99,7 +97,7 @@ def test_update_user_email_in_memory(
     repository_with_user_in_memory: UserInMemoryRepository,
 ) -> None:
     # Arrange
-    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
+    user_id: str = str(list(repository_with_user_in_memory.database.keys())[0])
     updated_user = InputUpdateUserDTO(id=user_id, email="johndoe2@mail.com")
 
     # Act
@@ -115,7 +113,7 @@ def test_update_user_password_in_memory(
     repository_with_user_in_memory: UserInMemoryRepository,
 ) -> None:
     # Arrange
-    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
+    user_id: str = str(list(repository_with_user_in_memory.database.keys())[0])
     updated_user = InputUpdateUserDTO(id=user_id, password="sausage755")
 
     # Act
@@ -131,8 +129,8 @@ def test_update_user_instance_slug_in_memory(
     repository_with_user_in_memory: UserInMemoryRepository,
 ) -> None:
     # Arrange
-    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
-    updated_user = InputUpdateUserDTO(id=user_id, instance_slug=Slug(name="lamb4"))
+    user_id: str = str(list(repository_with_user_in_memory.database.keys())[0])
+    updated_user = InputUpdateUserDTO(id=user_id, instance_slug="lamb4")
 
     # Act
     repository_with_user_in_memory.update(updated_user)
@@ -147,12 +145,12 @@ def test_update_entire_user_info_in_memory(
     repository_with_user_in_memory: UserInMemoryRepository,
 ) -> None:
     # Arrange
-    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
+    user_id: str = str(list(repository_with_user_in_memory.database.keys())[0])
     updated_user = InputUpdateUserDTO(
         id=user_id,
         email="johndoe2@mail.com",
         password="idontknow2006",
-        instance_slug=Slug(name="lamb55"),
+        instance_slug="lamb55",
     )
 
     # Act
@@ -170,7 +168,7 @@ def test_delete_user_in_memory(
     repository_with_user_in_memory: UserInMemoryRepository,
 ) -> None:
     # Act
-    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
+    user_id: str = str(list(repository_with_user_in_memory.database.keys())[0])
     deleted_user = InputDeleteUserDTO(id=user_id)
     repository_with_user_in_memory.delete(deleted_user)
 

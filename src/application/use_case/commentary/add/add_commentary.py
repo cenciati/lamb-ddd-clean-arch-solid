@@ -1,4 +1,4 @@
-# pylint: disable=no-name-in-module,redefined-builtin
+# pylint: disable=no-name-in-module
 
 from src.application.use_case.commentary.add.add_commentary_dto import (
     InputAddCommentaryDTO,
@@ -14,6 +14,6 @@ class AddCommentaryUseCase:
     def __init__(self, repository: CommentaryRepositoryInterface):
         self.repository = repository
 
-    def execute(self, input: InputAddCommentaryDTO) -> None:
+    def execute(self, data: InputAddCommentaryDTO) -> None:
         """Triggers the flow to execute the use case."""
-        self.repository.add(input)
+        self.repository.add(data)

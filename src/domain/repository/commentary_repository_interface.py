@@ -1,9 +1,9 @@
-# pylint: disable=no-name-in-module, invalid-name, redefined-builtin
+# pylint: disable=no-name-in-module,invalid-name
 from abc import ABC, abstractmethod
 from typing import Optional, Sequence
 
 from src.application.use_case.commentary.find.find_commentary_dto import (
-    InputFindCommentaryDTO,
+    InputFindCommentaryByInstanceSlugDTO,
     OutputFindCommentaryDTO,
 )
 from src.domain.repository.repository_interface import RepositoryInterface
@@ -14,7 +14,7 @@ class CommentaryRepositoryInterface(RepositoryInterface, ABC):
 
     @abstractmethod
     def find_by_instance_slug(
-        self, input: InputFindCommentaryDTO
+        self, data: InputFindCommentaryByInstanceSlugDTO
     ) -> Optional[Sequence[OutputFindCommentaryDTO]]:
         """Find commentaries by instance slug."""
         raise NotImplementedError

@@ -2,16 +2,16 @@
 # flake8: noqa
 
 
-from pydantic import UUID4
 from sqlalchemy import Sequence
 
 from src.application.use_case.customer.add.add_customer_dto import InputAddCustomerDTO
 from src.application.use_case.customer.find.find_customer_dto import (
-    InputFindCustomerDTO,
+    InputFindCustomerByCpfDTO,
+    InputFindCustomerByEmailDTO,
+    InputFindCustomerByIDDTO,
     OutputFindCustomerDTO,
 )
 from src.application.use_case.user.delete.delete_user_dto import InputDeleteUserDTO
-from src.domain.value.cpf import Cpf
 from src.infrastructure.repository.memory.customer_memory_repository import (
     CustomerInMemoryRepository,
 )
@@ -20,7 +20,7 @@ from src.infrastructure.repository.memory.customer_memory_repository import (
 def test_add_new_customer_in_memory() -> None:
     # Arrange
     new_customer = InputAddCustomerDTO(
-        full_name="John Doe", email="johndoe@mail.com", cpf=Cpf(number="01234567890")
+        full_name="John Doe", email="johndoe@mail.com", cpf="01234567890"
     )
 
     # Act
@@ -39,10 +39,10 @@ def test_find_customer_in_memory(
     repository_with_customer_in_memory: CustomerInMemoryRepository,
 ) -> None:
     # Arrange
-    created_customer_id: UUID4 = list(
-        repository_with_customer_in_memory.database.keys()
-    )[0]
-    customer = InputFindCustomerDTO(id=created_customer_id)
+    created_customer_id: str = str(
+        list(repository_with_customer_in_memory.database.keys())[0]
+    )
+    customer = InputFindCustomerByIDDTO(id=created_customer_id)
 
     # Act
     found_customer: OutputFindCustomerDTO = repository_with_customer_in_memory.find(
@@ -60,7 +60,7 @@ def test_find_customer_by_email_in_memory(
     repository_with_customer_in_memory: CustomerInMemoryRepository,
 ) -> None:
     # Arrange
-    customer = InputFindCustomerDTO(email="johndoe@mail.com")
+    customer = InputFindCustomerByEmailDTO(email="johndoe@mail.com")
 
     # Act
     found_customer: OutputFindCustomerDTO = (
@@ -78,11 +78,11 @@ def test_find_customer_by_cpf_in_memory(
     repository_with_customer_in_memory: CustomerInMemoryRepository,
 ) -> None:
     # Arrange
-    customer = InputFindCustomerDTO(email="johndoe@mail.com")
+    customer = InputFindCustomerByCpfDTO(cpf="01234567890")
 
     # Act
     found_customer: OutputFindCustomerDTO = (
-        repository_with_customer_in_memory.find_by_email(customer)
+        repository_with_customer_in_memory.find_by_cpf(customer)
     )
 
     # Assert
@@ -123,7 +123,7 @@ def test_delete_customer_in_memory(
     repository_with_customer_in_memory: CustomerInMemoryRepository,
 ) -> None:
     # Act
-    customer_id: UUID4 = list(repository_with_customer_in_memory.database.keys())[0]
+    customer_id: str = str(list(repository_with_customer_in_memory.database.keys())[0])
     deleted_customer = InputDeleteUserDTO(id=customer_id)
     repository_with_customer_in_memory.delete(deleted_customer)
 

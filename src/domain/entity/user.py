@@ -66,7 +66,7 @@ class User(BaseModel):
         if new_password:
             self.password = new_password
         if new_instance_slug:
-            self.instance_slug = new_instance_slug
+            self.instance_slug = Slug(name=new_instance_slug)
         was_there_any_update: bool = new_email or new_password or new_instance_slug
         if was_there_any_update:
             self.__updated_at = datetime.utcnow()

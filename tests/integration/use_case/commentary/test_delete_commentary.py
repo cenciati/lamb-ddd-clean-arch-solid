@@ -2,8 +2,6 @@
 # flake8: noqa
 
 
-from pydantic import UUID4
-
 from src.application.use_case.commentary.delete.delete_commentary import (
     DeleteCommentaryUseCase,
 )
@@ -20,7 +18,7 @@ def test_delete_commentary_use_case_using_in_memory_repository(
 ) -> None:
     # Arrange
     use_case = DeleteCommentaryUseCase(repository_with_comment_in_memory)
-    comment_id: UUID4 = list(repository_with_comment_in_memory.database.keys())[0]
+    comment_id: str = str(list(repository_with_comment_in_memory.database.keys())[0])
     deleted_comment = InputDeleteCommentaryDTO(id=comment_id)
 
     # Act

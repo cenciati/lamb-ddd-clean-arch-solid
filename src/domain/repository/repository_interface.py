@@ -1,4 +1,4 @@
-# pylint: disable=no-name-in-module, invalid-name, redefined-builtin
+# pylint: disable=no-name-in-module,invalid-name
 from abc import ABC, abstractmethod
 from typing import Any, Optional, Sequence
 
@@ -12,7 +12,7 @@ class RepositoryInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find(self, input: Any) -> Optional[Any]:
+    def find(self, data: Any) -> Optional[Any]:
         """Find something by unique identifier."""
         raise NotImplementedError
 
@@ -22,6 +22,6 @@ class RepositoryInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def delete(self, input: Any) -> None:
+    def delete(self, data: Any) -> None:
         """Delete something by unique identifier."""
         raise NotImplementedError

@@ -1,8 +1,8 @@
-# pylint: disable=no-name-in-module,redefined-builtin
+# pylint: disable=no-name-in-module
 from typing import Optional, Sequence
 
 from src.application.use_case.commentary.find.find_commentary_dto import (
-    InputFindCommentaryDTO,
+    InputFindCommentaryByInstanceSlugDTO,
     OutputFindCommentaryDTO,
 )
 from src.domain.repository.commentary_repository_interface import (
@@ -17,7 +17,7 @@ class FindCommentariesByInstanceSlugUseCase:
         self.repository = repository
 
     def execute(
-        self, input: InputFindCommentaryDTO
+        self, data: InputFindCommentaryByInstanceSlugDTO
     ) -> Optional[Sequence[OutputFindCommentaryDTO]]:
         """Triggers the flow to execute the use case."""
-        return self.repository.find_by_instance_slug(input)
+        return self.repository.find_by_instance_slug(data)

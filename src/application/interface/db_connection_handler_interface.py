@@ -12,16 +12,16 @@ class DBConnectionHandlerInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def __create_engine(self) -> Any:
+    def _create_database_engine(self) -> Any:
         """Create database engine."""
         raise NotImplementedError
 
     @abstractmethod
-    def __enter__(self):
+    def __enter__(self) -> Any:
         """Beginning of a database connection context."""
         raise NotImplementedError
 
     @abstractmethod
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         """End of a database connection context."""
         raise NotImplementedError

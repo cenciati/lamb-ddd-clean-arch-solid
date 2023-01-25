@@ -1,15 +1,19 @@
-# pylint: disable=no-name-in-module,redefined-builtin, duplicate-code
+# pylint: disable=no-name-in-module,duplicate-code
 from typing import Optional, Sequence
+
+from pydantic import UUID4
 
 from src.application.use_case.user.add.add_user_dto import InputAddUserDTO
 from src.application.use_case.user.delete.delete_user_dto import InputDeleteUserDTO
 from src.application.use_case.user.find.find_user_dto import (
-    InputFindUserDTO,
+    InputFindUserByEmailDTO,
+    InputFindUserByIDDTO,
     OutputFindUserDTO,
 )
 from src.application.use_case.user.update.update_user_dto import InputUpdateUserDTO
 from src.domain.entity.user import User
 from src.domain.repository.user_repository_interface import UserRepositoryInterface
+from src.domain.value.slug import Slug
 
 
 class UserInMemoryRepository(UserRepositoryInterface):
@@ -24,24 +28,26 @@ class UserInMemoryRepository(UserRepositoryInterface):
             new_user = User(
                 email=entity.email,
                 password=entity.password,
-                instance_slug=entity.instance_slug,
+                instance_slug=Slug(name=entity.instance_slug),
             )
             self.database[new_user.id] = new_user
         except Exception as exc:
             raise Exception from exc
 
-    def find(self, input: InputFindUserDTO) -> Optional[OutputFindUserDTO]:
+    def find(self, data: InputFindUserByIDDTO) -> Optional[OutputFindUserDTO]:
         """Find user by unique identifier."""
         try:
-            return self.database.get(input.id)
+            return self.database.get(UUID4(data.id))
         except Exception as exc:
             raise Exception from exc
 
-    def find_by_email(self, input: InputFindUserDTO) -> Optional[OutputFindUserDTO]:
+    def find_by_email(
+        self, data: InputFindUserByEmailDTO
+    ) -> Optional[OutputFindUserDTO]:
         """Find user by email."""
         try:
             return [
-                user for _, user in self.database.items() if user.email == input.email
+                user for _, user in self.database.items() if user.email == data.email
             ][0]
         except Exception as exc:
             raise Exception from exc
@@ -53,20 +59,18 @@ class UserInMemoryRepository(UserRepositoryInterface):
         except Exception as exc:
             raise Exception from exc
 
-    def update(self, input: InputUpdateUserDTO) -> None:
+    def update(self, data: InputUpdateUserDTO) -> None:
         """Update user information by unique identifier."""
         try:
-            self.database.get(input.id).update(
-                input.email,
-                input.password,
-                input.instance_slug,
+            self.database.get(UUID4(data.id)).update(
+                data.email, data.password, data.instance_slug
             )
         except Exception as exc:
             raise Exception from exc
 
-    def delete(self, input: InputDeleteUserDTO) -> None:
+    def delete(self, data: InputDeleteUserDTO) -> None:
         """Delete user by unique identifier."""
         try:
-            self.database.pop(input.id)
+            self.database.pop(UUID4(data.id))
         except Exception as exc:
             raise Exception from exc

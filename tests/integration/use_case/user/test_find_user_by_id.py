@@ -2,11 +2,9 @@
 # flake8: noqa
 
 
-from pydantic import UUID4
-
 from src.application.use_case.user.find.find_user_by_id import FindUserByIDUseCase
 from src.application.use_case.user.find.find_user_dto import (
-    InputFindUserDTO,
+    InputFindUserByIDDTO,
     OutputFindUserDTO,
 )
 from src.infrastructure.repository.memory.user_memory_repository import (
@@ -19,8 +17,8 @@ def test_find_user_by_id_use_case_using_in_memory_repository(
 ) -> None:
     # Arrange
     use_case = FindUserByIDUseCase(repository_with_user_in_memory)
-    user_id: UUID4 = list(repository_with_user_in_memory.database.keys())[0]
-    user = InputFindUserDTO(id=user_id)
+    user_id: str = str(list(repository_with_user_in_memory.database.keys())[0])
+    user = InputFindUserByIDDTO(id=user_id)
 
     # Act
     found_user: OutputFindUserDTO = use_case.execute(user)

@@ -1,7 +1,5 @@
 # pylint: disable=line-too-long, protected-access, disable=no-name-in-module
 # flake8: noqa
-from pydantic import UUID4
-
 from src.application.use_case.customer.delete.delete_customer import (
     DeleteCustomerUseCase,
 )
@@ -18,7 +16,7 @@ def test_delete_customer_use_case_using_in_memory_repository(
 ) -> None:
     # Arrange
     use_case = DeleteCustomerUseCase(repository_with_customer_in_memory)
-    customer_id: UUID4 = list(repository_with_customer_in_memory.database.keys())[0]
+    customer_id: str = str(list(repository_with_customer_in_memory.database.keys())[0])
     deleted_customer = InputDeleteCustomerDTO(id=customer_id)
 
     # Act

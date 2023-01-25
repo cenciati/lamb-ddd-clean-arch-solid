@@ -8,10 +8,9 @@ from src.application.use_case.commentary.find.find_commentaries_by_instance_slug
     FindCommentariesByInstanceSlugUseCase,
 )
 from src.application.use_case.commentary.find.find_commentary_dto import (
-    InputFindCommentaryDTO,
+    InputFindCommentaryByInstanceSlugDTO,
     OutputFindCommentaryDTO,
 )
-from src.domain.value.slug import Slug
 from src.infrastructure.repository.memory.commentary_memory_repository import (
     CommentaryInMemoryRepository,
 )
@@ -22,7 +21,7 @@ def test_find_comments_by_instance_slug_use_case_using_in_memory_repository(
 ) -> None:
     # Arrange
     use_case = FindCommentariesByInstanceSlugUseCase(repository_with_comments_in_memory)
-    comment = InputFindCommentaryDTO(instance_slug=Slug(name="lamb"))
+    comment = InputFindCommentaryByInstanceSlugDTO(instance_slug="lamb")
 
     # Act
     found_comments: Sequence[OutputFindCommentaryDTO] = use_case.execute(comment)

@@ -6,7 +6,7 @@ from pydantic import EmailStr
 
 from src.application.use_case.user.find.find_user_by_email import FindUserByEmailUseCase
 from src.application.use_case.user.find.find_user_dto import (
-    InputFindUserDTO,
+    InputFindUserByEmailDTO,
     OutputFindUserDTO,
 )
 from src.infrastructure.repository.memory.user_memory_repository import (
@@ -20,7 +20,7 @@ def test_find_user_by_email_use_case_using_in_memory_repository(
     # Arrange
     use_case = FindUserByEmailUseCase(repository_with_user_in_memory)
     email: EmailStr = list(repository_with_user_in_memory.database.values())[0].email
-    user = InputFindUserDTO(email=email)
+    user = InputFindUserByEmailDTO(email=email)
 
     # Act
     found_user: OutputFindUserDTO = use_case.execute(user)
