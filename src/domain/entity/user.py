@@ -17,11 +17,12 @@ from src.domain.value.slug import Slug
 
 
 class User(BaseModel):
-    """User entity.
+    """It represents an user entity.
     Attributes:
-        id (int): Unique identifier.
-        email (EmailStr): Valid an unique email.
-        instance_slug (Slug): Instance that has been given access in.
+        id (UUID4): Unique identifier.
+        email (EmailStr): Valid and unique email.
+        password (str): User password.
+        instance_slug (Slug): Instance where it has access.
         created_at (datetime): Date when it was created.
         updated_at (datetime): Date when it was last updated.
     """
@@ -34,7 +35,7 @@ class User(BaseModel):
     __updated_at: datetime = PrivateAttr(default_factory=datetime.utcnow)
 
     @validator("password", pre=True, always=True)
-    def ensure_password_consistency(cls, value) -> str:
+    def ensure_password_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Password must be a string value.")
         if len(value) < 8:
@@ -59,7 +60,7 @@ class User(BaseModel):
         self,
         new_email: Optional[EmailStr],
         new_password: Optional[str],
-        new_instance_slug: Optional[Slug],
+        new_instance_slug: Optional[str],
     ) -> None:
         if new_email:
             self.email = new_email
@@ -70,3 +71,16 @@ class User(BaseModel):
         was_there_any_update: bool = new_email or new_password or new_instance_slug
         if was_there_any_update:
             self.__updated_at = datetime.utcnow()
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, User):
+            return self.id == other.id
+        return False
+
+    def __repr__(self) -> str:
+        return f"""
+            <User(id={self.id},
+            email={self.email},
+            password={self.password},
+            instance_slug={self.instance_slug}>
+        """

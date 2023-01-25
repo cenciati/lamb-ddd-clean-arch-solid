@@ -1,13 +1,9 @@
-[ ] refactor domain objects (dataclass)
-[ ] implement sqlalchemy + postgresql repos
+[ ] improve tests name
 [ ] error handling + test
-[ ] typing
-[ ] postgresql repository
-[ ] cpf rules
-[ ] create api
-[ ] tests name
-[ ] docstrings
-[ ] jwt
-[ ] tests on continuous integration
-[ ] readme
-[ ] deploy
+[ ] implement sqlalchemy repositories (postgreqsql)
+[ ] add logging
+[ ] implement other endpoints
+[ ] add wt
+[ ] add tests on CI
+[ ] write readme
+[ ] deploy it

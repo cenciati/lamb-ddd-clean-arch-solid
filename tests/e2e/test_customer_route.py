@@ -61,10 +61,10 @@ def test_root_should_return_all_created_users(
         full_name="John Doe", email="johndoe@mail.com", cpf="01234567890"
     ).dict()
     customer_2: Dict[str, Any] = InputAddCustomerDTO(
-        full_name="Jane Doe", email="janendoe@mail.com", cpf="01234567891"
+        full_name="Jane Doe", email="janendoe@mail.com", cpf="94658372029"
     ).dict()
     customer_3: Dict[str, Any] = InputAddCustomerDTO(
-        full_name="Mark Doe", email="markndoe@mail.com", cpf="01234567892"
+        full_name="Mark Doe", email="markndoe@mail.com", cpf="84184182062"
     ).dict()
 
     # Act

@@ -6,6 +6,17 @@ from pydantic.error_wrappers import ValidationError
 from src.domain.value.cpf import Cpf
 
 
+def test_cpf_should_not_raise_an_error_if_its_correct() -> None:
+    # Arrange
+    correct_cpf: str = "94658372029"
+
+    # Act
+    Cpf(number=correct_cpf)
+
+    # Assert
+    assert True
+
+
 def test_cpf_should_raise_an_error_if_its_size_is_greater_than_11() -> None:
     # Arrange
     cpf_greater_than_11: str = "012345678901"

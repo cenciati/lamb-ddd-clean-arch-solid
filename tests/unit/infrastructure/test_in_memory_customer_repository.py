@@ -114,11 +114,11 @@ def test_find_all_customers_in_memory(
 
     assert all_customers[1].full_name == "Mark Blo"
     assert all_customers[1].email == "markblo@mail.com"
-    assert all_customers[1].cpf.number == "01234567891"
+    assert all_customers[1].cpf.number == "94658372029"
 
     assert all_customers[2].full_name == "Vanessa Suhm"
     assert all_customers[2].email == "vanessasuhm@mail.com"
-    assert all_customers[2].cpf.number == "01234567892"
+    assert all_customers[2].cpf.number == "84184182062"
 
 
 def test_delete_customer_in_memory(

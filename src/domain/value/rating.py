@@ -3,7 +3,7 @@ from pydantic import BaseModel, ValidationError, root_validator, validator
 
 
 class Rating(BaseModel):
-    """Value object for rating.
+    """Value object for rating representation.
     Attributes:
         score (int): Value between 1 and 10 which indicates
             how the user rates their experience with something.
@@ -15,7 +15,7 @@ class Rating(BaseModel):
     detractor: bool = False
 
     @validator("score", pre=True, always=True)
-    def ensure_score_consistency(cls, value) -> int:
+    def ensure_score_consistency(cls, value: int) -> int:
         if not isinstance(value, int):
             raise ValidationError("Score must be an integer value.")
         if value < 1 or value > 10:
@@ -24,7 +24,7 @@ class Rating(BaseModel):
 
     @root_validator(pre=True)
     def assign_is_detractor_flag_as_a_detractor_or_promotor_based_on_given_score(
-        cls, values
+        cls, values: dict
     ) -> dict:
         if values["score"] < 7:
             values["detractor"] = True
@@ -32,3 +32,9 @@ class Rating(BaseModel):
 
     def is_detractor(self) -> bool:
         return self.detractor
+
+    def __repr__(self) -> str:
+        return f"""
+            <Rating(score={self.score},
+            detractor={self.detractor})>,
+        """

@@ -34,8 +34,8 @@ def test_find_all_customers_found_use_case_using_in_memory_repository(
 
     assert all_customers_found[1].full_name == "Mark Blo"
     assert all_customers_found[1].email == "markblo@mail.com"
-    assert all_customers_found[1].cpf.number == "01234567891"
+    assert all_customers_found[1].cpf.number == "94658372029"
 
     assert all_customers_found[2].full_name == "Vanessa Suhm"
     assert all_customers_found[2].email == "vanessasuhm@mail.com"
-    assert all_customers_found[2].cpf.number == "01234567892"
+    assert all_customers_found[2].cpf.number == "84184182062"

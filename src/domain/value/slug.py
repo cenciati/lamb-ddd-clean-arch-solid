@@ -3,15 +3,15 @@ from pydantic import BaseModel, ValidationError, validator
 
 
 class Slug(BaseModel):
-    """Slug value object.
+    """Value object for slug representation.
     Attributes:
-        name (str): A valid and unique name for the slug.
+        name (str): Valid and unique name.
     """
 
     name: str
 
     @validator("name", pre=True, always=True)
-    def ensure_slug_consistency(cls, value) -> str:
+    def ensure_slug_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Slug must be a string value.")
         if len(value) < 3:
@@ -21,3 +21,6 @@ class Slug(BaseModel):
         if " " in value:
             raise ValidationError("Slug must not have any whitespace.")
         return value.lower()
+
+    def __repr__(self) -> str:
+        return f"<Slug(name={self.name})>"

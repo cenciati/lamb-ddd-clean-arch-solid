@@ -174,12 +174,12 @@ def repository_with_customers_in_memory() -> CustomerInMemoryRepository:
         cpf="01234567890",
     )
     new_customer_2 = InputAddCustomerDTO(
-        full_name="Mark Blo", email="markblo@mail.com", cpf="01234567891"
+        full_name="Mark Blo", email="markblo@mail.com", cpf="94658372029"
     )
     new_customer_3 = InputAddCustomerDTO(
         full_name="Vanessa Suhm",
         email="vanessasuhm@mail.com",
-        cpf="01234567892",
+        cpf="84184182062",
     )
     repository = CustomerInMemoryRepository()
     repository.add(new_customer_1)

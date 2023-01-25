@@ -7,13 +7,12 @@ from src.domain.value.cpf import Cpf
 
 
 class Customer(BaseModel):
-    """Customer entity.
+    """It represents a customer entity.
     Attributes:
-        id (uuid4): Unique identifier.
+        id (UUID4): Unique identifier.
         full_name (str): Customer full name.
         email (EmaiLStr): Valid and unique e-mail address.
-        cpf (Cpf): Valid and unique registration number
-            without any kind of ponctuation.
+        cpf (Cpf): Valid and unique CPF without any kind of ponctuation.
     """
 
     id: UUID4 = Field(default_factory=uuid4)
@@ -22,7 +21,7 @@ class Customer(BaseModel):
     cpf: Cpf
 
     @validator("full_name", pre=True, always=True)
-    def ensure_full_name_consistency(cls, value) -> str:
+    def ensure_full_name_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Name must be a string value.")
         if len(value) < 8:
@@ -30,3 +29,16 @@ class Customer(BaseModel):
         if len(value) > 64:
             raise ValidationError("Name must have at most 64 characters.")
         return value
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Customer):
+            return self.id == other.id
+        return False
+
+    def __repr__(self) -> str:
+        return f"""
+            <Customer(id={self.id},
+            full_name={self.full_name},
+            email={self.email},
+            cpf={self.cpf}>
+        """

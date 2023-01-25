@@ -11,20 +11,20 @@ from src.domain.value.tag import Tag
 
 
 class Commentary(BaseModel):
-    """Commentary entity.
+    """It represents a commentary entity.
     Attributes:
-        id (uuid4): Unique identifier.
+        id (UUID4): Unique identifier.
         content (str): Commentary text by itself. Written thoughts
-            about someone experienced in somewhere.
+            about what someone experienced in somewhere.
         rating (Rating): Score and is_detractor flag indicating in
             a measurable way how much someone enjoyed the experience
             and whether they are a detractor or promoter respectively.
         tags (List[Tag]): Set of tag(s) containing information about the
-            topics liked and disliked by someone. It may also be empty (None).
-        customer_id (int): Unique identifier of the customer who rated it.
-        instance_slug (str): Identifier of what has been rated.
-        journey_slug (str): Identifier of which specific part of something
-            has been rated.
+            topics liked and disliked by someone. It may also be an empty list.
+        customer_id (UUID4): Unique identifier from the customer who rated it.
+        instance_slug (Slug): Identifier of what company instance was rated.
+        journey_slug (Slug): Identifier of which specific part of the customer
+            journey was rated.
         automatic (bool): Whether the tags were classified manually or
             by an artificial intelligence.
         experience_date (datetime): Date when the experience occured.
@@ -45,7 +45,7 @@ class Commentary(BaseModel):
         return self.__experience_date
 
     @validator("content", pre=True, always=True)
-    def ensure_content_consistency(cls, value) -> str:
+    def ensure_content_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Content must be a string value.")
         if len(value) > 2000:
@@ -53,7 +53,7 @@ class Commentary(BaseModel):
         return value
 
     @validator("automatic", pre=True, always=True)
-    def ensure_automatic_consistency(cls, value) -> bool:
+    def ensure_automatic_consistency(cls, value: bool) -> bool:
         if not isinstance(value, bool):
             raise ValidationError("Automatic must be a True or False value.")
         return value
@@ -61,3 +61,20 @@ class Commentary(BaseModel):
     def set_automatic(self) -> None:
         """Sets automatic classified flag as True."""
         self.automatic = True
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Commentary):
+            return self.id == other.id
+        return False
+
+    def __repr__(self) -> str:
+        return f"""
+            <Commentary(id={self.id},
+            content={self.content},
+            rating={self.rating},
+            tags={self.tags},
+            customer_id={self.customer_id},
+            instance_slug={self.instance_slug},
+            journey_slug={self.journey_slug},
+            automatic={self.automatic})>
+        """
