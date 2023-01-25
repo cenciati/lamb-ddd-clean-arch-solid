@@ -26,7 +26,7 @@ class Cpf(BaseModel, frozen=True):
     @classmethod
     def validate_cpf(cls, cpf: str) -> bool:
         """Checks if a CPF is valid."""
-        CPF_LENGTH: int = 11
+        CPF_LENGTH: int = 11  # pylint: disable=invalid-name
         if cpf in (number * CPF_LENGTH for number in "1234567890"):
             return False
         reverse_cpf: str = cpf[::-1]
@@ -35,7 +35,7 @@ class Cpf(BaseModel, frozen=True):
             valid_digit: int = (
                 sum(map(lambda x: int(x[1]) * x[0], enumerated_cpf)) * 10 % 11
             )
-            if reverse_cpf[idx - 1 : idx] != str(valid_digit % 10):
+            if reverse_cpf[idx - 1 : idx] != str(valid_digit % 10):  # noqa: E203
                 return False
         return True
 

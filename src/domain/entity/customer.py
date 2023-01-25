@@ -40,5 +40,5 @@ class Customer(BaseModel):
             <Customer(id={self.id},
             full_name={self.full_name},
             email={self.email},
-            cpf={self.cpf}>
+            cpf={self.cpf})>
         """

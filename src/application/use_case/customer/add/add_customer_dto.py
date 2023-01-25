@@ -1,4 +1,4 @@
-# pylint: disable=no-name-in-module, missing-class-docstring
+# pylint: disable=no-name-in-module,missing-class-docstring,duplicate-code
 from pydantic import UUID4, BaseModel, EmailStr
 
 from src.domain.value.cpf import Cpf

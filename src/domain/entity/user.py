@@ -82,5 +82,5 @@ class User(BaseModel):
             <User(id={self.id},
             email={self.email},
             password={self.password},
-            instance_slug={self.instance_slug}>
+            instance_slug={self.instance_slug})>
         """
