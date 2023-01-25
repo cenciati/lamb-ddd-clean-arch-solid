@@ -5,7 +5,10 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr
 
 from src.application.use_case.customer.add.add_customer import AddCustomerUseCase
-from src.application.use_case.customer.add.add_customer_dto import InputAddCustomerDTO
+from src.application.use_case.customer.add.add_customer_dto import (
+    InputAddCustomerDTO,
+    OutputAddCustomerDTO,
+)
 from src.application.use_case.customer.delete.delete_customer import (
     DeleteCustomerUseCase,
 )
@@ -105,14 +108,20 @@ async def find_customer_by_cpf(customer_cpf: str):
     return {"data": jsonable_encoder(response)}
 
 
-@customer_router.post("/", status_code=status.HTTP_201_CREATED, response_model=None)
+@customer_router.post(
+    "/",
+    status_code=status.HTTP_201_CREATED,
+    response_model=Dict[str, List[Dict[str, Any]]],
+)
 async def add_new_customer(new_customer: InputAddCustomerDTO):
     use_case = AddCustomerUseCase(repository)
-    use_case.execute(new_customer)
+    added_customer: OutputAddCustomerDTO = use_case.execute(new_customer)
+    response = CustomerPresenter().to_json(added_customer)
+    return {"data": jsonable_encoder(response)}
 
 
 @customer_router.delete(
-    "/{customer_id}", status_code=status.HTTP_204_NO_CONTENT, response_model=None
+    "/{customer_id}/", status_code=status.HTTP_204_NO_CONTENT, response_model=None
 )
 async def delte_customer_by_id(customer_id: str):
     use_case = DeleteCustomerUseCase(repository)

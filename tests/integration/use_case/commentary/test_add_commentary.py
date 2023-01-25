@@ -6,9 +6,7 @@ from pydantic import UUID4
 from src.application.use_case.commentary.add.add_commentary import AddCommentaryUseCase
 from src.application.use_case.commentary.add.add_commentary_dto import (
     InputAddCommentaryDTO,
-)
-from src.application.use_case.commentary.find.find_commentary_dto import (
-    OutputFindCommentaryDTO,
+    OutputAddCommentaryDTO,
 )
 from src.domain.value.tag import Tag
 from src.infrastructure.repository.memory.commentary_memory_repository import (
@@ -25,8 +23,7 @@ def test_add_new_comment_use_case_using_in_memory_repository(
     use_case = AddCommentaryUseCase(repository)
 
     # Act
-    use_case.execute(new_comment)
-    added_comment: OutputFindCommentaryDTO = list(repository.database.values())[0]
+    added_comment: OutputAddCommentaryDTO = use_case.execute(new_comment)
 
     # Assert
     assert added_comment.content == "The experience was great in general."

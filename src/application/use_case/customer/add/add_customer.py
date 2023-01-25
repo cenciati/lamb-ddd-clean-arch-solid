@@ -1,6 +1,9 @@
 # pylint: disable=no-name-in-module
 
-from src.application.use_case.customer.add.add_customer_dto import InputAddCustomerDTO
+from src.application.use_case.customer.add.add_customer_dto import (
+    InputAddCustomerDTO,
+    OutputAddCustomerDTO,
+)
 from src.domain.repository.customer_repository_interface import (
     CustomerRepositoryInterface,
 )
@@ -12,6 +15,6 @@ class AddCustomerUseCase:
     def __init__(self, repository: CustomerRepositoryInterface):
         self.repository = repository
 
-    def execute(self, data: InputAddCustomerDTO) -> None:
+    def execute(self, data: InputAddCustomerDTO) -> OutputAddCustomerDTO:
         """Triggers the flow to execute the use case."""
-        self.repository.add(data)
+        return self.repository.add(data)

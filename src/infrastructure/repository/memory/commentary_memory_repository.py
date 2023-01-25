@@ -5,6 +5,7 @@ from pydantic import UUID4
 
 from src.application.use_case.commentary.add.add_commentary_dto import (
     InputAddCommentaryDTO,
+    OutputAddCommentaryDTO,
 )
 from src.application.use_case.commentary.delete.delete_commentary_dto import (
     InputDeleteCommentaryDTO,
@@ -29,7 +30,7 @@ class CommentaryInMemoryRepository(CommentaryRepositoryInterface):
     def __init__(self) -> None:
         self.database = {}
 
-    def add(self, entity: InputAddCommentaryDTO) -> None:
+    def add(self, entity: InputAddCommentaryDTO) -> OutputAddCommentaryDTO:
         """Add commentary into memory."""
         try:
             if entity.tags:
@@ -52,6 +53,7 @@ class CommentaryInMemoryRepository(CommentaryRepositoryInterface):
                 automatic=entity.automatic,
             )
             self.database[new_comment.id] = new_comment
+            return new_comment
         except Exception as exc:
             raise Exception from exc
 

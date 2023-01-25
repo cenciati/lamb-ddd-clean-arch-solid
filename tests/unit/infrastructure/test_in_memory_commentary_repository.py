@@ -8,6 +8,7 @@ from pydantic import UUID4
 
 from src.application.use_case.commentary.add.add_commentary_dto import (
     InputAddCommentaryDTO,
+    OutputAddCommentaryDTO,
 )
 from src.application.use_case.commentary.delete.delete_commentary_dto import (
     InputDeleteCommentaryDTO,
@@ -25,24 +26,22 @@ from src.infrastructure.repository.memory.commentary_memory_repository import (
 
 def test_add_new_comment_in_memory(new_comment: InputAddCommentaryDTO) -> None:
     # Arrange
-    customer_id: str = new_comment.customer_id
+    comment_repository = CommentaryInMemoryRepository()
 
     # Act
-    comment_repository = CommentaryInMemoryRepository()
-    comment_repository.add(new_comment)
-    database: list = list(comment_repository.database.values())
+    added_new_comment: OutputAddCommentaryDTO = comment_repository.add(new_comment)
 
     # Assert
     assert len(comment_repository.database) == 1
-    assert database[0].content == "The experience was great in general."
-    assert database[0].rating.score == 9
-    assert database[0].tags == [
+    assert added_new_comment.content == "The experience was great in general."
+    assert added_new_comment.rating.score == 9
+    assert added_new_comment.tags == [
         Tag(id=0, name="Experience", sentiment=1, subtag=False),
         Tag(id=1, name="Infrastructure", sentiment=1, subtag=False),
     ]
-    assert database[0].customer_id == UUID4(customer_id)
-    assert database[0].instance_slug.name == "lamb"
-    assert database[0].journey_slug.name == "site"
+    assert added_new_comment.customer_id == UUID4(new_comment.customer_id)
+    assert added_new_comment.instance_slug.name == "lamb"
+    assert added_new_comment.journey_slug.name == "site"
 
 
 def test_find_comment_in_memory(

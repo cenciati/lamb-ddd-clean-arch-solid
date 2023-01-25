@@ -7,7 +7,7 @@ class RepositoryInterface(ABC):
     """Interface for managing aggregates."""
 
     @abstractmethod
-    def add(self, entity: Any) -> None:
+    def add(self, entity: Any) -> Any:
         """Add something into somewhere."""
         raise NotImplementedError
 

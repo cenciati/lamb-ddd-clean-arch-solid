@@ -3,7 +3,10 @@ from typing import Optional, Sequence
 
 from pydantic import UUID4
 
-from src.application.use_case.user.add.add_user_dto import InputAddUserDTO
+from src.application.use_case.user.add.add_user_dto import (
+    InputAddUserDTO,
+    OutputAddUserDTO,
+)
 from src.application.use_case.user.delete.delete_user_dto import InputDeleteUserDTO
 from src.application.use_case.user.find.find_user_dto import (
     InputFindUserByEmailDTO,
@@ -22,7 +25,7 @@ class UserInMemoryRepository(UserRepositoryInterface):
     def __init__(self) -> None:
         self.database = {}
 
-    def add(self, entity: InputAddUserDTO) -> None:
+    def add(self, entity: InputAddUserDTO) -> OutputAddUserDTO:
         """Add user into memory."""
         try:
             new_user = User(
@@ -31,6 +34,7 @@ class UserInMemoryRepository(UserRepositoryInterface):
                 instance_slug=Slug(name=entity.instance_slug),
             )
             self.database[new_user.id] = new_user
+            return new_user
         except Exception as exc:
             raise Exception from exc
 

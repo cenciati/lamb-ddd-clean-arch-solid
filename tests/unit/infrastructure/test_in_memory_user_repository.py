@@ -4,7 +4,10 @@
 
 from typing import Sequence
 
-from src.application.use_case.user.add.add_user_dto import InputAddUserDTO
+from src.application.use_case.user.add.add_user_dto import (
+    InputAddUserDTO,
+    OutputAddUserDTO,
+)
 from src.application.use_case.user.delete.delete_user_dto import InputDeleteUserDTO
 from src.application.use_case.user.find.find_user_dto import (
     InputFindUserByEmailDTO,
@@ -24,28 +27,27 @@ def test_add_new_user_in_memory() -> None:
         password="iloveapples",
         instance_slug="lamb",
     )
+    user_repository = UserInMemoryRepository()
 
     # Act
-    user_repository = UserInMemoryRepository()
-    user_repository.add(new_user)
-    database: list = list(user_repository.database.values())
+    added_user: OutputAddUserDTO = user_repository.add(new_user)
 
     # Assert
     assert len(user_repository.database) == 1
-    assert database[0].email == "johndoe@mail.com"
-    assert database[0].password == "iloveapples"
-    assert database[0].instance_slug.name == "lamb"
+    assert added_user.email == "johndoe@mail.com"
+    assert added_user.password == "iloveapples"
+    assert added_user.instance_slug.name == "lamb"
 
 
 def test_find_user_in_memory(
     repository_with_user_in_memory: UserInMemoryRepository,
 ) -> None:
     # Arrange
-    created_user_id: str = str(list(repository_with_user_in_memory.database.keys())[0])
-    user = InputFindUserByIDDTO(id=created_user_id)
+    user_id: str = str(list(repository_with_user_in_memory.database.keys())[0])
+    added_user = InputFindUserByIDDTO(id=user_id)
 
     # Act
-    found_user: OutputFindUserDTO = repository_with_user_in_memory.find(user)
+    found_user: OutputFindUserDTO = repository_with_user_in_memory.find(added_user)
 
     # Assert
     assert len(repository_with_user_in_memory.database) == 1
@@ -58,10 +60,13 @@ def test_find_user_by_email_in_memory(
     repository_with_user_in_memory: UserInMemoryRepository,
 ) -> None:
     # Arrange
-    user = InputFindUserByEmailDTO(email="johndoe@mail.com")
+    user_email: str = "johndoe@mail.com"
+    added_user = InputFindUserByEmailDTO(email=user_email)
 
     # Act
-    found_user: OutputFindUserDTO = repository_with_user_in_memory.find_by_email(user)
+    found_user: OutputFindUserDTO = repository_with_user_in_memory.find_by_email(
+        added_user
+    )
 
     # Assert
     assert len(repository_with_user_in_memory.database) == 1

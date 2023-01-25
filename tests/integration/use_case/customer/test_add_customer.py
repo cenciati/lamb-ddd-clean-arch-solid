@@ -3,9 +3,9 @@
 
 
 from src.application.use_case.customer.add.add_customer import AddCustomerUseCase
-from src.application.use_case.customer.add.add_customer_dto import InputAddCustomerDTO
-from src.application.use_case.customer.find.find_customer_dto import (
-    OutputFindCustomerDTO,
+from src.application.use_case.customer.add.add_customer_dto import (
+    InputAddCustomerDTO,
+    OutputAddCustomerDTO,
 )
 from src.infrastructure.repository.memory.customer_memory_repository import (
     CustomerInMemoryRepository,
@@ -21,8 +21,7 @@ def test_add_customer_use_case_using_in_memory_repository() -> None:
     use_case = AddCustomerUseCase(repository)
 
     # Act
-    use_case.execute(new_customer)
-    added_customer: OutputFindCustomerDTO = list(repository.database.values())[0]
+    added_customer: OutputAddCustomerDTO = use_case.execute(new_customer)
 
     # Assert
     assert added_customer.full_name == "John Doe"

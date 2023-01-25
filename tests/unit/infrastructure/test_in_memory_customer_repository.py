@@ -4,7 +4,10 @@
 
 from sqlalchemy import Sequence
 
-from src.application.use_case.customer.add.add_customer_dto import InputAddCustomerDTO
+from src.application.use_case.customer.add.add_customer_dto import (
+    InputAddCustomerDTO,
+    OutputAddCustomerDTO,
+)
 from src.application.use_case.customer.find.find_customer_dto import (
     InputFindCustomerByCpfDTO,
     InputFindCustomerByEmailDTO,
@@ -22,17 +25,16 @@ def test_add_new_customer_in_memory() -> None:
     new_customer = InputAddCustomerDTO(
         full_name="John Doe", email="johndoe@mail.com", cpf="01234567890"
     )
+    customer_repository = CustomerInMemoryRepository()
 
     # Act
-    customer_repository = CustomerInMemoryRepository()
-    customer_repository.add(new_customer)
-    database: list = list(customer_repository.database.values())
+    added_customer: OutputAddCustomerDTO = customer_repository.add(new_customer)
 
     # Assert
     assert len(customer_repository.database) == 1
-    assert database[0].full_name == "John Doe"
-    assert database[0].email == "johndoe@mail.com"
-    assert database[0].cpf.number == "01234567890"
+    assert added_customer.full_name == "John Doe"
+    assert added_customer.email == "johndoe@mail.com"
+    assert added_customer.cpf.number == "01234567890"
 
 
 def test_find_customer_in_memory(

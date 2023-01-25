@@ -3,7 +3,10 @@ from typing import Optional, Sequence
 
 from pydantic import UUID4
 
-from src.application.use_case.customer.add.add_customer_dto import InputAddCustomerDTO
+from src.application.use_case.customer.add.add_customer_dto import (
+    InputAddCustomerDTO,
+    OutputAddCustomerDTO,
+)
 from src.application.use_case.customer.find.find_customer_dto import (
     InputFindCustomerByCpfDTO,
     InputFindCustomerByEmailDTO,
@@ -24,7 +27,7 @@ class CustomerInMemoryRepository(CustomerRepositoryInterface):
     def __init__(self) -> None:
         self.database = {}
 
-    def add(self, entity: InputAddCustomerDTO) -> None:
+    def add(self, entity: InputAddCustomerDTO) -> OutputAddCustomerDTO:
         """Add customer into memory."""
         try:
             new_customer = Customer(
@@ -33,6 +36,7 @@ class CustomerInMemoryRepository(CustomerRepositoryInterface):
                 cpf=Cpf(number=entity.cpf),
             )
             self.database[new_customer.id] = new_customer
+            return new_customer
         except Exception as exc:
             raise Exception from exc
 
