@@ -4,7 +4,7 @@ POETRY := poetry run
 FILES_PATH := src
 TESTS_PATH := tests
 
-.PHONY: help lint test test_not_e2e setup clean
+.PHONY: help lint test test_not_e2e run_api setup clean
 .ONESHELL: setup clean
 
 help: ## Display commands help
@@ -25,6 +25,9 @@ test_not_e2e: ## Run only unit and integration tests
 
 test_e2e: ## Run only end-to-end tests
 	${POETRY} ${PYTHON} pytest ${TESTS_PATH} -k "e2e"
+
+run_api: ## Start API
+	${POETRY} ${PYTHON} src.infrastructure.http.main
 
 ##@ Environment
 setup: ## Install dependencies and setup docker-compose.
