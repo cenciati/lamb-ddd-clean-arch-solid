@@ -23,6 +23,9 @@ test: ## Run all tests
 test_not_e2e: ## Run only unit and integration tests
 	${POETRY} ${PYTHON} pytest ${TESTS_PATH} -k "not e2e"
 
+test_e2e: ## Run only end-to-end tests
+	${POETRY} ${PYTHON} pytest ${TESTS_PATH} -k "e2e"
+
 ##@ Environment
 setup: ## Install dependencies and setup docker-compose.
 	echo "placeholder"
