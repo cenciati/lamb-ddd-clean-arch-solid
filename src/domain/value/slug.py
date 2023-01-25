@@ -2,7 +2,7 @@
 from pydantic import BaseModel, ValidationError, validator
 
 
-class Slug(BaseModel):
+class Slug(BaseModel, frozen=True):
     """Value object for slug representation.
     Attributes:
         name (str): Valid and unique name.

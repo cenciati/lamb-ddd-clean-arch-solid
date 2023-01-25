@@ -2,7 +2,7 @@
 from pydantic import BaseModel, ValidationError, validator
 
 
-class Tag(BaseModel):
+class Tag(BaseModel, frozen=True):
     """Value object for tag representation.
     Attributes:
         id (int): Unique identifier.

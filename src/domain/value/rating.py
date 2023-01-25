@@ -2,7 +2,7 @@
 from pydantic import BaseModel, ValidationError, root_validator, validator
 
 
-class Rating(BaseModel):
+class Rating(BaseModel, frozen=True):
     """Value object for rating representation.
     Attributes:
         score (int): Value between 1 and 10 which indicates

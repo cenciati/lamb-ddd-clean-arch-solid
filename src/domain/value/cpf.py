@@ -2,7 +2,7 @@
 from pydantic import BaseModel, ValidationError, validator
 
 
-class Cpf(BaseModel):
+class Cpf(BaseModel, frozen=True):
     """Value object for CPF representation.
     Attributes:
         number (str): Valid and unique CPF registration
