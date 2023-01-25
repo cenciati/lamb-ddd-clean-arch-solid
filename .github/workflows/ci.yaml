@@ -57,7 +57,6 @@ jobs:
       shell: bash
       run: python -m poetry run python -m flake8 . --exclude=.venv --max-line-length 119
 
-    # disable tests until deploy
-    # - name: Run tests
-    #   shell: bash
-    #   run: python -m poetry run python -m pytest .
+    - name: Run tests
+      shell: bash
+      run: python -m poetry run python -m pytest
