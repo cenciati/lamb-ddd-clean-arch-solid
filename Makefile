@@ -4,7 +4,7 @@ POETRY := poetry run
 FILES_PATH := src
 TESTS_PATH := tests
 
-.PHONY: help lint test setup clean
+.PHONY: help lint test test_not_e2e setup clean
 .ONESHELL: setup clean
 
 help: ## Display commands help
@@ -17,8 +17,11 @@ lint: ## Run linters and formatters
 	${POETRY} ${PYTHON} pylint ${FILES_PATH} ${TESTS_PATH}
 	${POETRY} ${PYTHON} flake8 ${FILES_PATH} ${TESTS_PATH}
 
-test: ## Run tests
+test: ## Run all tests
 	${POETRY} ${PYTHON} pytest ${TESTS_PATH}
+
+test_not_e2e: ## Run only unit and integration tests
+	${POETRY} ${PYTHON} pytest ${TESTS_PATH} -k "not e2e"
 
 ##@ Environment
 setup: ## Install dependencies and setup docker-compose.
