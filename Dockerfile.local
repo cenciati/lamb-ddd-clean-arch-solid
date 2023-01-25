@@ -1,4 +1,4 @@
-FROM python:3.10.8-slim
+FROM python:3.10.9-slim
 
 # Prevents python from writing .pyc (compiled byte) codes to disk
 ENV PYTHONDONTWRITEBYTECODE 0
@@ -31,7 +31,9 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
 RUN useradd -ms /bin/bash userlocal
 USER userlocal
 
-WORKDIR /home/userlocal/lamb
+WORKDIR /home/userlocal/app
+
+COPY . .
 
 # Install dependencies
 ARG INSTALL_DEV=true
