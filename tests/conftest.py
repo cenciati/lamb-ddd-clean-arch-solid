@@ -12,7 +12,7 @@ from src.domain.entity.commentary import Commentary
 from src.domain.value.rating import Rating
 from src.domain.value.slug import Slug
 from src.domain.value.tag import Tag
-from src.infrastructure.http.routes.server import app
+from src.infrastructure.http.server import app
 from src.infrastructure.repository.memory.commentary_memory_repository import (
     CommentaryInMemoryRepository,
 )
@@ -26,8 +26,7 @@ from src.infrastructure.repository.memory.user_memory_repository import (
 
 @pytest.fixture
 def client() -> TestClient:
-    client = TestClient(app)
-    return client
+    return TestClient(app)
 
 
 @pytest.fixture
