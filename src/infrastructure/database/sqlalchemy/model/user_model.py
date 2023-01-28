@@ -2,7 +2,7 @@
 from sqlalchemy import Column, DateTime, String
 from sqlalchemy.sql import func
 
-from src.infrastructure.database.sqlalchemy.db_config import Base
+from src.infrastructure.database.sqlalchemy.db_base import Base
 
 
 class UserModel(Base):
@@ -21,16 +21,14 @@ class UserModel(Base):
     )
 
     def __repr__(self) -> str:
-        return f"""
-            <UserModel(id={self.id},
-            email={self.email},
-            password={self.password},
-            instance_slug={self.instance_slug},
-            created_at={self.created_at},
-            updated_at={self.updated_at})>
-            """
+        return f"""<UserModel(id={self.id},
+        email={self.email},
+        password={self.password},
+        instance_slug={self.instance_slug},
+        created_at={self.created_at},
+        updated_at={self.updated_at})>"""
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         return (
             self.id == other.id
             and self.email == other.email

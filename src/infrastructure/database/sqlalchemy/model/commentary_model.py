@@ -1,8 +1,7 @@
 # pylint: disable=no-name-in-module
-from sqlalchemy import Boolean, Column, DateTime, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 
-from src.infrastructure.database.sqlalchemy.db_config import Base
+from src.infrastructure.database.sqlalchemy.db_base import Base
 
 
 class CommentaryModel(Base):
@@ -13,7 +12,7 @@ class CommentaryModel(Base):
     content = Column(String(2000), nullable=False)
     rating = Column(Integer, nullable=False)
     tags = Column(String, nullable=False)
-    customer_id = relationship("CustomerModel")
+    customer_id = Column(String, ForeignKey("customers.id"))
     instance_slug = Column(String(24), nullable=False)
     journey_slug = Column(String(24), nullable=False)
     automatic = Column(Boolean, nullable=False)
@@ -32,7 +31,7 @@ class CommentaryModel(Base):
             experience_date={self.experience_date})>
             """
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         return (
             self.id == other.id
             and self.content == other.content
