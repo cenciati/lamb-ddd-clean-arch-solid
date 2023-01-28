@@ -1,4 +1,4 @@
-import logging
+from logging import INFO
 from os import getenv
 from typing import Optional
 
@@ -11,7 +11,7 @@ load_dotenv(find_dotenv())
 class LoggingSettings(BaseSettings):
     """Settings for logging"""
 
-    LOGGING_LEVEL: int = logging.INFO
+    LOGGING_LEVEL: int = INFO
 
 
 class DBSettings(BaseSettings):
@@ -32,9 +32,10 @@ class Settings(BaseSettings):
     """Project general settings."""
 
     API_V1_STR: str = "/api/v1"
-    BASE_URL: str = f"http://localhost:8000{API_V1_STR}"
+    URL: str = "http://localhost:8000"
+    BASE_URL: str = f"{URL}{API_V1_STR}"
     db: DBSettings = DBSettings()
-    logging: LoggingSettings = LoggingSettings()
+    log: LoggingSettings = LoggingSettings()
 
     def get_db_connection_string(self) -> str:
         return self.db.SQLALCHEMY_DATABASE_URI
