@@ -35,7 +35,7 @@ class User(BaseModel):
     __updated_at: datetime = PrivateAttr(default_factory=datetime.utcnow)
 
     @validator("password", pre=True, always=True)
-    def ensure_password_consistency(cls, value: str) -> str:
+    def _ensure_password_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Password must be a string value.")
         if len(value) < 8:

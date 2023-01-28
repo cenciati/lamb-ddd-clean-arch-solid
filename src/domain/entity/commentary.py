@@ -45,7 +45,7 @@ class Commentary(BaseModel):
         return self.__experience_date
 
     @validator("content", pre=True, always=True)
-    def ensure_content_consistency(cls, value: str) -> str:
+    def _ensure_content_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Content must be a string value.")
         if len(value) > 2000:
@@ -53,7 +53,7 @@ class Commentary(BaseModel):
         return value
 
     @validator("automatic", pre=True, always=True)
-    def ensure_automatic_consistency(cls, value: bool) -> bool:
+    def _ensure_automatic_consistency(cls, value: bool) -> bool:
         if not isinstance(value, bool):
             raise ValidationError("Automatic must be a True or False value.")
         return value

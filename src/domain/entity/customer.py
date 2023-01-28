@@ -21,7 +21,7 @@ class Customer(BaseModel):
     cpf: Cpf
 
     @validator("full_name", pre=True, always=True)
-    def ensure_full_name_consistency(cls, value: str) -> str:
+    def _ensure_full_name_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Name must be a string value.")
         if len(value) < 8:
