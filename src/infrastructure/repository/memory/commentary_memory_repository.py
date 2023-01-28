@@ -33,6 +33,7 @@ class CommentaryInMemoryRepository(CommentaryRepositoryInterface):
     def add(self, entity: InputAddCommentaryDTO) -> OutputAddCommentaryDTO:
         """Add commentary into memory."""
         try:
+            print(entity)
             if entity.tags:
                 tags: List[Tag] = [
                     Tag(
