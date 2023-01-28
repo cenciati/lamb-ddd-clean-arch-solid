@@ -1,6 +1,6 @@
 # pylint: disable=no-name-in-module,missing-class-docstring,duplicate-code
 from datetime import datetime
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import UUID4, BaseModel
 
@@ -12,7 +12,7 @@ from src.domain.value.tag import Tag
 class InputAddCommentaryDTO(BaseModel):
     content: str
     rating: int
-    tags: List[dict]
+    tags: Optional[List[Dict[str, Any]]] = []
     customer_id: str
     instance_slug: str
     journey_slug: str
