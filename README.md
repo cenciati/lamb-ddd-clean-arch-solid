@@ -59,12 +59,19 @@ $ make run_api
 ![Lamb - endpoints documentation](./docs/user_route.png)
 
 #### Examples
-Request commentary GET /extract/{comment_id}/:
+Request commentary POST /extract/:
 ```json
 {
   "content": "Nothing to complain about.",
   "rating": 8,
-  "tags": [{"id": 1, "name": "Support", "sentiment": 1, "subtag": false}],
+  "tags": [
+    {
+      "id": 1,
+      "name": "Support",
+      "sentiment": 1,
+      "subtag": false
+    }
+  ],
   "customer_id": "d5ec36c3-fe23-484d-8358-32aec747d42a",
   "instance_slug": "lamb",
   "journey_slug": "app",
