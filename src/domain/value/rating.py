@@ -1,4 +1,6 @@
 # pylint: disable=no-name-in-module, no-self-argument
+from typing import Any, Dict
+
 from pydantic import BaseModel, ValidationError, root_validator, validator
 
 
@@ -15,7 +17,7 @@ class Rating(BaseModel, frozen=True):
     detractor: bool = False
 
     @validator("score", pre=True, always=True)
-    def ensure_score_consistency(cls, value: int) -> int:
+    def _ensure_score_consistency(cls, value: int) -> int:
         if not isinstance(value, int):
             raise ValidationError("Score must be an integer value.")
         if value < 1 or value > 10:
@@ -23,9 +25,9 @@ class Rating(BaseModel, frozen=True):
         return value
 
     @root_validator(pre=True)
-    def assign_is_detractor_flag_as_a_detractor_or_promotor_based_on_given_score(
-        cls, values: dict
-    ) -> dict:
+    def _assign_is_detractor_flag_as_a_detractor_or_promotor_based_on_given_score(
+        cls, values: Dict[str, Any]
+    ) -> Dict[str, Any]:
         if values["score"] < 7:
             values["detractor"] = True
         return values

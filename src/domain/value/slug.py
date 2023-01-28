@@ -11,7 +11,7 @@ class Slug(BaseModel, frozen=True):
     name: str
 
     @validator("name", pre=True, always=True)
-    def ensure_slug_consistency(cls, value: str) -> str:
+    def _ensure_slug_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Slug must be a string value.")
         if len(value) < 3:

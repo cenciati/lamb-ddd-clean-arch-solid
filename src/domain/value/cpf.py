@@ -12,19 +12,19 @@ class Cpf(BaseModel, frozen=True):
     number: str
 
     @validator("number", pre=True, always=True)
-    def ensure_cpf_consistency(cls, value: str) -> str:
+    def _ensure_cpf_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Cpf must be a string value.")
         if len(value) != 11:
             raise ValidationError("Cpf must have exactly 11 characters.")
         if "." in value or "-" in value:
             raise ValidationError("Cpf must not have any ponctuation.")
-        if not cls.validate_cpf(value):
+        if not cls._validate_cpf(value):
             raise ValidationError("Cpf is not valid.")
         return value
 
     @classmethod
-    def validate_cpf(cls, cpf: str) -> bool:
+    def _validate_cpf(cls, cpf: str) -> bool:
         """Checks if a CPF is valid."""
         CPF_LENGTH: int = 11  # pylint: disable=invalid-name
         if cpf in (number * CPF_LENGTH for number in "1234567890"):

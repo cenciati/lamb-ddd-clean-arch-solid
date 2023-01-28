@@ -18,7 +18,7 @@ class Tag(BaseModel, frozen=True):
     subtag: bool
 
     @validator("name", pre=True, always=True)
-    def ensure_name_consistency(cls, value: str) -> str:
+    def _ensure_name_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValidationError("Name must be a string value.")
         if len(value) < 3:
@@ -28,7 +28,7 @@ class Tag(BaseModel, frozen=True):
         return value
 
     @validator("sentiment", pre=True, always=True)
-    def ensure_sentiment_consistency(cls, value: int) -> int:
+    def _ensure_sentiment_consistency(cls, value: int) -> int:
         if not isinstance(value, int):
             raise ValidationError("Sentiment must be an integer value.")
         if value not in (1, 0):
@@ -36,7 +36,7 @@ class Tag(BaseModel, frozen=True):
         return value
 
     @validator("subtag", pre=True, always=True)
-    def ensure_subtag_consistency(cls, value) -> bool:
+    def _ensure_subtag_consistency(cls, value) -> bool:
         if not isinstance(value, bool):
             raise ValidationError("Subtag must be a boolean value.")
         return value
