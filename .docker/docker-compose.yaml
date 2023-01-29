@@ -3,7 +3,7 @@ version: "3"
 services:
   db:
     image: postgres:latest
-    container_name: db
+    container_name: lamb-db
     ports:
       - 5432:5432
     volumes:
@@ -18,7 +18,7 @@ services:
 
   pgmyadmin:
     image: dpage/pgadmin4:latest
-    container_name: pgmyadmin
+    container_name: lamb-pgmyadmin
     ports:
       - 80:80
     networks:
@@ -33,13 +33,14 @@ services:
 
   app:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: ./.docker/Dockerfile
       target: production
-    container_name: app
+    container_name: lamb-app
+    ports:
+      - 8000:8000
     networks:
       - app-db-network
-    entrypoint: dockerize -wait tcp://db:5432 -timeout 20s entrypoint.sh
     depends_on:
       - db
     restart: on-failure

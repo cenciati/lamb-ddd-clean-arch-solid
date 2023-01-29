@@ -1,0 +1,7 @@
+.venv/
+.github/
+.vscode/
+docs/
+.env.example
+LICENSE
+README.md
