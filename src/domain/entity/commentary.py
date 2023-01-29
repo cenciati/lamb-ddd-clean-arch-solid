@@ -40,10 +40,6 @@ class Commentary(BaseModel):
     automatic: bool = False
     __experience_date: datetime = PrivateAttr(default_factory=datetime.utcnow)
 
-    @property
-    def experience_date(self) -> datetime:
-        return self.__experience_date
-
     @validator("content", pre=True, always=True)
     def _ensure_content_consistency(cls, value: str) -> str:
         if not isinstance(value, str):
@@ -57,6 +53,10 @@ class Commentary(BaseModel):
         if not isinstance(value, bool):
             raise ValidationError("Automatic must be a True or False value.")
         return value
+
+    @property
+    def experience_date(self) -> datetime:
+        return self.__experience_date
 
     def set_automatic(self) -> None:
         """Sets automatic classified flag as True."""
