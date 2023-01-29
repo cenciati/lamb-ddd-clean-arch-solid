@@ -21,8 +21,6 @@ To run this project locally, you need to have installed all the tools listed abo
 
 Before running the scripts, make sure you already have it installed:
 - GNU make
-- Python >= 3.10
-- Poetry == 1.2.2
 - Docker
 - Docker-compose
 
