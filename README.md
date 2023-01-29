@@ -41,9 +41,10 @@ In case you want to remove everything that was installed, you can write the foll
 $ make clean
 ```
 
-### How to run
+### How to run locally
+Once you've downloaded the source code, you can also run the API locally by typing:
 ```bash
-$ make run_api
+$ make run_api_local
 ```
 
 ## 📄 Documentation
@@ -105,7 +106,8 @@ Response commentary GET /extract/{comment_id}/:
       "journey_slug": {
         "name": "app"
       },
-      "automatic": false
+      "automatic": false,
+      "experience_date": "2022-09-12T17:45:39.980237"
     }
   ]
 }
