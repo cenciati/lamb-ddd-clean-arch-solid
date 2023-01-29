@@ -33,7 +33,6 @@ class CommentaryInMemoryRepository(CommentaryRepositoryInterface):
     def add(self, entity: InputAddCommentaryDTO) -> OutputAddCommentaryDTO:
         """Add commentary into memory."""
         try:
-            print(entity)
             if entity.tags:
                 tags: List[Tag] = [
                     Tag(
@@ -53,8 +52,19 @@ class CommentaryInMemoryRepository(CommentaryRepositoryInterface):
                 journey_slug=Slug(name=entity.journey_slug),
                 automatic=entity.automatic,
             )
-            self.database[new_comment.id] = new_comment
-            return new_comment
+            added_comment = OutputAddCommentaryDTO(
+                id=new_comment.id,
+                content=new_comment.content,
+                rating=new_comment.rating,
+                tags=new_comment.tags,
+                customer_id=new_comment.customer_id,
+                instance_slug=new_comment.instance_slug,
+                journey_slug=new_comment.journey_slug,
+                automatic=new_comment.automatic,
+                experience_date=new_comment.experience_date,
+            )
+            self.database[new_comment.id] = added_comment
+            return added_comment
         except Exception as exc:
             raise Exception from exc
 
